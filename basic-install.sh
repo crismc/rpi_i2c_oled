@@ -4,12 +4,17 @@
 set -e
 
 E_NOTROOT=87 # Non-root exit error.
-REPO="https://github.com/crismc/rpi_i2c_oled.git"
+REPO="crismc/rpi_i2c_oled"
 APP_DIR="rpi_i2c_oled"
 TEMP_PATH="/tmp/$APP_DIR"
 INSTALL_PATH="/etc/$APP_DIR"
 SERVICE_NAME="oled.service"
-VERSION='v1.0.0'
+
+get_latest_release() {
+  curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api
+    grep '"tag_name":' |                                            # Get tag line
+    sed -E 's/.*"([^"]+)".*/\1/'                                    # Pluck JSON value
+}
 
 ## check if is sudoer
 if ! $(sudo -l &> /dev/null); then
@@ -17,8 +22,16 @@ if ! $(sudo -l &> /dev/null); then
     exit $E_NOTROOT
 fi
 
+echo "Getting latest version"
+VERSION=$(get_latest_release $REPO)
+
+if [ ! $VERSION ]; then
+    echo "Could not get the latest version of $REPO"
+    exit $E_NOTROOT
+fi
+
 echo "Getting rpi_i2c_oled"
-git clone -b $VERSION --single-branch --depth 1 $REPO $TEMP_PATH
+git clone -b $VERSION --single-branch --depth 1 https://github.com/$REPO.git $TEMP_PATH
 
 if [ ! -d $TEMP_PATH ]; then
     echo "Could not clone $REPO to $TEMP_PATH"
