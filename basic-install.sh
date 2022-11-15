@@ -9,6 +9,7 @@ APP_DIR="rpi_i2c_oled"
 TEMP_PATH="/tmp/$APP_DIR"
 INSTALL_PATH="/etc/$APP_DIR"
 SERVICE_NAME="oled.service"
+VERSION='v1.0.0'
 
 ## check if is sudoer
 if ! $(sudo -l &> /dev/null); then
@@ -17,7 +18,7 @@ if ! $(sudo -l &> /dev/null); then
 fi
 
 echo "Getting rpi_i2c_oled"
-git clone $REPO $TEMP_PATH
+git clone -b $VERSION --single-branch --depth 1 $REPO $TEMP_PATH
 
 if [ ! -d $TEMP_PATH ]; then
     echo "Could not clone $REPO to $TEMP_PATH"
