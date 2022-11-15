@@ -146,6 +146,7 @@ python3 display.py --config /path/to/options.json
 
 | Name                 | Type    | Requirement  | Description                                            | Default             |
 | ---------------------| ------- | ------------ | -------------------------------------------------------| ------------------- |
+| HASIO     | boolean  | **Required** | Is this being used as a Home Assistant AddOn. If you don't know what this means, leave this false                  | `false`                 |
 | Temperature_Unit     | string  | **Required** | Display the CPU temperature in C or F                  | `C`                 |
 | Default_Duration     | int     | **Required** | How long in seconds to display each screen by default. Ignored if specified on specific screen  | `10`                |
 | Show_Welcome_Screen  | boolean | **Required** | Show the animated Welcome to `hostname` screen         | `true`              |
