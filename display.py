@@ -393,7 +393,11 @@ def get_options(config_path):
 
     TEMP_UNIT = options['Temperature_Unit']
     DEFAULT_DURATION = options['Default_Duration']
-    IS_HASIO = options['HASIO']
+
+    if 'HASIO' in options:
+        IS_HASIO = bool(options['HASIO'])
+    else:
+        IS_HASIO = True
 
     set_screen_options(SCREEN_WELCOME, options)
     set_screen_options(SCREEN_SPLASH, options)
