@@ -66,8 +66,15 @@ sudo raspi-config
 # Interface Options > I2C
 ```
 
-Installing
-----------
+One-Step Automated Install
+----------------
+Those who want to get started quickly and conveniently may install the RPI_I2C_OLED using the following command:
+```
+curl -sSL https://raw.githubusercontent.com/crismc/rpi_i2c_oled/v1.0.0/basic-install.sh | sudo bash
+```
+
+Installing From Source
+------------------------
 Initial apt-get installs:
 ```
 sudo apt-get install i2c-tools git vim
@@ -85,13 +92,13 @@ sudo apt-get install python3-dev python3-smbus python3-pil
 
 Checkout this code
 ```
-git clone git@github.com:crismc/rpi_oled_ssd1306_service.git
-cd rpi_oled_ssd1306_service
+git clone git@github.com:crismc/rpi_i2c_oled.git
+cd rpi_i2c_oled
 ```
 
 Test OLED
 ```
-cd rpi_oled_ssd1306_service
+cd rpi_i2c_oled
 python3 display.py
 ```
 
@@ -100,12 +107,12 @@ Create a service
 
 Copy the repo file to /etc:
 ```
-sudo cp -ri ../rpi_oled_ssd1306_service /etc
+sudo cp -ri ../rpi_i2c_oled /etc
 ```
 
 Create a sym link of the service file in /etc/systemd/system, and reload it
 ```
-sudo ln -s /etc/rpi_oled_ssd1306_service/oled.service /etc/systemd/system/oled.service
+sudo ln -s /etc/rpi_i2c_oled/oled.service /etc/systemd/system/oled.service
 sudo systemctl daemon-reload
 ```
 

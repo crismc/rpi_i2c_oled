@@ -6,7 +6,7 @@ Wants=network-pre.target
 [Service]
 Type=simple
 Restart=always
-ExecStart=/usr/bin/python3 /etc/rpi_oled_ssd1306_service/display.py
+ExecStart=/usr/bin/python3 /etc/rpi_i2c_oled/display.py
 
 [Install]
 WantedBy=basic.target

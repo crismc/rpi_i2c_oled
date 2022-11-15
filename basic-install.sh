@@ -4,11 +4,11 @@
 set -e
 
 E_NOTROOT=87 # Non-root exit error.
-REPO = "https://github.com/crismc/rpi_i2c_oled.git"
-APP_DIR = "rpi_i2c_oled"
-TEMP_PATH = "/tmp/$APP_DIR"
-INSTALL_PATH = "/etc/$APP_DIR"
-SERVICE_NAME = "oled.service"
+REPO="https://github.com/crismc/rpi_i2c_oled.git"
+APP_DIR="rpi_i2c_oled"
+TEMP_PATH="/tmp/$APP_DIR"
+INSTALL_PATH="/etc/$APP_DIR"
+SERVICE_NAME="oled.service"
 
 ## check if is sudoer
 if ! $(sudo -l &> /dev/null); then
