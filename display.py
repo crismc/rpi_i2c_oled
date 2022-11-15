@@ -409,9 +409,9 @@ def get_options(config_path):
 def set_screen_options(screen, options):
     global SCREENS
     SCREENS[screen][SCREEN_OPT_SHOW] = options['Show_' + screen]
-    if screen + '_Limit' in options and options[screen + '_Limit'] and SCREENS[screen][SCREEN_OPT_LIMIT]:
+    if screen + '_Limit' in options and options[screen + '_Limit']:
         SCREENS[screen][SCREEN_OPT_LIMIT] = options[screen + '_Limit']
-    if screen + '_Duration' in options and options[screen + '_Duration'] and SCREENS[screen][SCREEN_OPT_DURATION]:
+    if screen + '_Duration' in options and options[screen + '_Duration']:
         SCREENS[screen][SCREEN_OPT_DURATION] = options[screen + '_Duration']
 
 def print_help():
