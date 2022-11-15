@@ -1,12 +1,3 @@
-# SPDX-FileCopyrightText: 2017 Tony DiCola for Adafruit Industries
-# SPDX-FileCopyrightText: 2017 James DeVito for Adafruit Industries
-# SPDX-License-Identifier: MIT
-
-## REF https://pillow.readthedocs.io/
-
-# This example is for use on (Linux) computers that are using CPython with
-# Adafruit Blinka to support CircuitPython libraries. CircuitPython does
-# not support PIL/pillow (python imaging library)!
 import math
 import time
 import subprocess
@@ -70,7 +61,6 @@ SCREENS = {
 DEFAULT_DURATION = 10
 
 # Create the SSD1306 OLED class.
-# The first two parameters are the pixel width and pixel height.  Change these to the right size for your display!
 disp = SSD1306.SSD1306_128_32()
 current_dir = str(pathlib.Path(__file__).parent.resolve())
 
@@ -80,8 +70,6 @@ disp.clear()
 disp.display()
 
 # Create blank image for drawing.
-# Make sure to create image with mode '1' for 1-bit color.
-
 width = disp.width
 height = disp.height
 
