@@ -204,10 +204,9 @@ Written by Tony DiCola for Adafruit Industries.
 MIT license, all text above must be included in any redistribution
 
 <!-- References -->
-[release-badge]: https://img.shields.io/github/v/release/crismc/homeassistant_addons?style=flat-square
-[downloads-badge]: https://img.shields.io/github/downloads/crismc/homeassistant_addons/total?style=flat-square
-[release-url]: https://github.com/crismc/homeassistant_addons/releases
-[splash-screen-url]: https://github.com/garethcheyne/HomeAssistant/raw/main/UCTronics_OLED_Display_Python/python/img/examples/splash.png?raw=true
+[release-badge]: https://img.shields.io/github/v/release/crismc/rpi_i2c_oled?style=flat-square
+[downloads-badge]: https://img.shields.io/github/downloads/crismc/rpi_i2c_oled/total?style=flat-square
+[release-url]: https://github.com/crismc/rpi_i2c_oled/releases
 [welcome-url]: /img/examples/welcome.png?raw=true
 [cpu-stats-url]: /img/examples/cpu.png?raw=true
 [ram-stats-url]: /img/examples/memory.png?raw=true
