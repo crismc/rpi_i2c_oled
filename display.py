@@ -25,7 +25,7 @@ import SSD1306
 TEMP_UNIT = "C"
 
 IS_HASIO = False
-SCREENSHOT_CAPTURE = True
+SCREENSHOT_CAPTURE = False
 
 SCREEN_SPLASH = 'Splash_Screen'
 SCREEN_CPU = 'CPU_Screen'
