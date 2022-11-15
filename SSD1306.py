@@ -66,7 +66,7 @@ class SSD1306Base(object):
     and provide an implementation for the _initialize function.
     """
 
-    def __init__(self, width, height, i2c_address=SSD1306_I2C_ADDRESS):
+    def __init__(self, width, height, i2c_address=SSD1306_I2C_ADDRESS, busnum=1):
         self._log = logging.getLogger('Adafruit_SSD1306.SSD1306Base')
         self.width = width
         self.height = height
@@ -75,7 +75,6 @@ class SSD1306Base(object):
         self._address = i2c_address
 
         # Handle hardware I2C
-        busnum = 1
         self._log.debug('Using hardware I2C with platform I2C provider.')
         self._bus = smbus.SMBus(busnum)
 
@@ -146,9 +145,9 @@ class SSD1306Base(object):
         self._buffer = [0]*(self.width*self._pages)
 
 class SSD1306_128_32(SSD1306Base):
-    def __init__(self, i2c_address=SSD1306_I2C_ADDRESS):
+    def __init__(self, busnum=1, i2c_address=SSD1306_I2C_ADDRESS):
         # Call base class constructor.
-        super(SSD1306_128_32, self).__init__(128, 32, i2c_address)
+        super(SSD1306_128_32, self).__init__(128, 32, i2c_address, busnum)
 
     def _initialize(self):
         # 128x32 pixel specific initialization.

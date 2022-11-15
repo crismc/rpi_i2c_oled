@@ -61,7 +61,8 @@ SCREENS = {
 DEFAULT_DURATION = 10
 
 # Create the SSD1306 OLED class.
-disp = SSD1306.SSD1306_128_32()
+I2C_BUS = 1
+disp = SSD1306.SSD1306_128_32(I2C_BUS)
 current_dir = str(pathlib.Path(__file__).parent.resolve())
 
 # Clear display.
