@@ -129,8 +129,8 @@ class SplashScreen(BaseScreen):
     img = Image.open(r"" + Utils.current_dir + "/img/home-assistant-logo.png")
 
     def __init__(self, duration, font, display, utils):
-        if not isinstance(utils, HassioUtils):
-            return False
+        if not isinstance(HassioUtils, utils):
+            return
 
         super().__init__(duration, font, display, utils)
 
