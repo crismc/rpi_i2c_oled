@@ -1,41 +1,41 @@
 import math
-
+import logging
+from bin.Utils import Utils
 class Scroller:
-    def __init__(self, text, offset, startpos, amplitude, font, draw_obj, width, velocity = -2):
+    def __init__(self, text, startpos, amplitude, font, display, velocity = -2):
         self.text = text
-        self.draw = draw_obj
+        self.display = display
         self.amplitude = amplitude
-        self.offset = offset
         self.velocity = velocity
-        self.width = width
         self.startpos = startpos
         self.pos = startpos
         self.font = font
-        self.maxwidth, unused = self.draw.textsize(self.text, font=self.font)
+        self.logger = logging.getLogger('Scroller')
+        unused, self.height_offset = Utils.get_text_center(display, text, font) # height/4
+        self.maxwidth, unused = Utils.get_text_size(display, text, font)
 
     def render(self):
         # Enumerate characters and draw them offset vertically based on a sine wave.
         x = self.pos
-        
         for i, c in enumerate(self.text):
             # Stop drawing if off the right side of screen.
-            if x > self.width:
+            if x > self.display.width:
                 break
 
             # Calculate width but skip drawing if off the left side of screen.
             if x < -10:
-                char_width, char_height = self.draw.textsize(c, font=self.font)
+                char_width, char_height = self.display.draw.textsize(c, font=self.font)
                 x += char_width
                 continue
 
             # Calculate offset from sine wave.
-            y = self.offset + math.floor(self.amplitude * math.sin(x / float(self.width) * 2.0 * math.pi))
+            y = self.height_offset + math.floor(self.amplitude * math.sin(x / float(self.display.width) * 2.0 * math.pi))
 
             # Draw text.
-            self.draw.text((x, y), c, font=self.font, fill=255)
+            self.display.draw.text((x, y), c, font=self.font, fill=255)
 
             # Increment x position based on chacacter width.
-            char_width, char_height = self.draw.textsize(c, font=self.font)
+            char_width, char_height = self.display.draw.textsize(c, font=self.font)
             x += char_width
 
     def move_for_next_frame(self, allow_startover):

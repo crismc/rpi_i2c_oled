@@ -45,6 +45,8 @@ Home Assistant Support
 ======================
 This repository has been broken out to work as a standalone service and will work on a standard Raspberry Pi running Raspian.
 
+Any screens which are dependent on Home Assistant (e.g. ```Splash```) will be automatically disabled
+
 Home Assistant variant of this build can be accessed from [HomeAssistant_Addons](https://github.com/crismc/homeassistant_addons)
 <br>
 <br>
@@ -138,6 +140,8 @@ You can modify the display of the content by editing the ```options.json``` file
 
 By default the ```options.json``` is loaded from the same directory as the ```display.py```. 
 
+Note: The keys are case **in**sensitive
+
 If you want to change this location, simply pass in the path to the desired config using the flags -c or --config:
 
 ```
@@ -150,7 +154,7 @@ python3 display.py --config /path/to/options.json
 
 | Name                 | Type    | Requirement  | Description                                            | Default             |
 | ---------------------| ------- | ------------ | -------------------------------------------------------| ------------------- |
-| HASIO     | boolean  | **Required** | Is this being used as a Home Assistant AddOn. If you don't know what this means, leave this false                  | `false`                 |
+| i2c_bus     | int  | **Required** | I2C bus number. /dev/i2c-[bus number]                  | `1`                 |
 | Temperature_Unit     | string  | **Required** | Display the CPU temperature in C or F                  | `C`                 |
 | Default_Duration     | int     | **Required** | How long in seconds to display each screen by default. Ignored if specified on specific screen  | `10`                |
 | Show_Welcome_Screen  | boolean | **Required** | Show the animated Welcome to `hostname` screen         | `true`              |
@@ -164,6 +168,24 @@ python3 display.py --config /path/to/options.json
 
 <br>
 <br>
+
+## Logs & Debugging
+As logging is initiated before the party begins, log levels are defined outside of the ```options.json```.
+
+Therefore, to enable debugging, when running ```display.py``` add ```-d``` or ```--debug``` to the command.
+
+e.g.:
+
+```
+$ python3 display.py -d
+INFO:Config:Loading config: /etc/rpi_i2c_oled/options.json
+INFO:Config:Home Assistant is not supported on this instance
+INFO:Config:'welcome' limited to 5 iterations
+INFO:__main__:'welcome' is being processed
+INFO:Screen:'WelcomeScreen' created
+INFO:Screen:'WelcomeScreen' rendering
+```
+
 <br>
 <br>
 <br>

@@ -10,7 +10,7 @@ class Display:
     SCREENSHOT_PATH = "./img/examples/{}.png"
 
     def __init__(self, busnum = None, screenshot = False):
-        if not busnum:
+        if not isinstance(busnum, int):
             busnum = Display.DEFAULT_BUSNUM
 
         self.display = SSD1306(busnum)
@@ -37,15 +37,16 @@ class Display:
         if self.screenshot:
             self.image.save(Display.SCREENSHOT_PATH.format(name))
 
-class Screen:
+class BaseScreen:
     font_path = Utils.current_dir + "/fonts/DejaVuSans.ttf"
     font_bold_path = Utils.current_dir + "/fonts/DejaVuSans-Bold.ttf"
     fonts = {}
 
-    def __init__(self, duration, display = Display(), utils = Utils()):
+    def __init__(self, duration, display = Display(), utils = Utils(), config = None):
         self.display = display
         self.duration = duration
         self.utils = utils
+        self.config = config
         self.logger = logging.getLogger('Screen')
         self.logger.info("'" + self.__class__.__name__ + "' created")
 
@@ -56,27 +57,42 @@ class Screen:
 
         key = 'font_{}{}'.format(str(size), suffix)
         
-        if key not in Screen.fonts:
-            font = Screen.font_path
+        if key not in BaseScreen.fonts:
+            font = BaseScreen.font_path
             if is_bold:
-                font = Screen.font_bold_path
+                font = BaseScreen.font_bold_path
 
             font = ImageFont.truetype(font, int(size))
-            Screen.fonts[key] = font
-        return Screen.fonts[key]
+            BaseScreen.fonts[key] = font
+        return BaseScreen.fonts[key]
 
     def render(self):
-        text = 'Welcome to ' + self.utils.get_hostname()
-        self.display.prepare()
-        self.display.draw.text((3, 4), text, font=self.font(16), fill=255)
         self.display.show()
 
     def run(self):
         self.logger.info("'" + self.__class__.__name__ + "' rendering")
+        self.display.prepare()
         self.render()
         self.logger.info("'" + self.__class__.__name__ + "' completed")
 
-class WelcomeScreen(Screen):
+class StaticScreen(BaseScreen):
+    def render(self, text):
+        self.display.prepare()
+        font = self.font(16)
+        x, y = Utils.get_text_center(self.display, text, font)
+        self.display.draw.text((x, y), text, font=font, fill=255)
+        self.display.show()
+        slug = Utils.slugify(text)
+        self.display.capture_screenshot("static_" + slug)
+
+    def run(self, text):
+        self.logger.info("'" + self.__class__.__name__ + "' rendering")
+        self.display.clear()
+        self.display.prepare()
+        self.render(text)
+        self.logger.info("'" + self.__class__.__name__ + "' completed")
+
+class WelcomeScreen(BaseScreen):
     def render(self):
         '''
         Animated welcome screen
@@ -85,11 +101,12 @@ class WelcomeScreen(Screen):
         hostname = self.utils.get_hostname()
         height = self.display.height
         width = self.display.width
-
-        scroller = Scroller('Welcome to ' + hostname, height/2 - 8, width, height/4, self.font(16), self.display.draw, width)
+        font = self.font(16)
+        message = 'Welcome to ' + hostname
+        scroller = Scroller(message, width, height/6, font, self.display)
         timer = time.time() + self.duration
 
-        while True:
+        while self.config.allow_screen_render('welcome'):
             self.display.prepare()
             scroller.render()
             self.display.show()
@@ -97,10 +114,10 @@ class WelcomeScreen(Screen):
             if scroller.pos == 2:
                 self.display.capture_screenshot("welcome")
 
-            if not scroller.move_for_next_frame(time.time() < timer):
+            if not self.config.allow_screen_render('welcome') or not scroller.move_for_next_frame(time.time() < timer):
                 break
 
-class SplashScreen(Screen):
+class SplashScreen(BaseScreen):
     img = Image.open(r"" + Utils.current_dir + "/img/home-assistant-logo.png")
 
     def __init__(self, duration, font, display, utils):
@@ -127,9 +144,6 @@ class SplashScreen(Screen):
         if (core_upgrade == True):
             core_version =  core_version + "*"
 
-        # Draw a padded black filled box with style.border width.
-        self.display.prepare()
-
         # Get HA Logo and Resize
         logo = self.img.resize([26,26])
         logo = ImageOps.invert(logo)  
@@ -139,13 +153,15 @@ class SplashScreen(Screen):
         self.display.draw.line([(34, 16),(123,16)], fill=255, width=1)
 
         ln1 = "Home Assistant"
-        ln1_x = Utils.get_text_center(self.display, ln1, self.font(9, True), 78)
-        self.display.draw.text((ln1_x, 2), ln1, font=self.font(9, True), fill=255)
+        ln1_font = self.font(9, True)
+        ln1_x, ln1_y = Utils.get_text_center(self.display, ln1, ln1_font)
+        self.display.draw.text((ln1_x, 2), ln1, font=ln1_font, fill=255)
 
         # Write Test, Eventually will get from HA API.
         ln2 = 'OS '+ os_version + ' - ' + core_version
-        ln2_x = Utils.get_text_center(self.display, ln2, self.font, 78)
-        self.display.draw.text((ln2_x, 20), ln2, font=self.font, fill=255)
+        ln2_font = self.font(8)
+        ln2_x, ln2_y = Utils.get_text_center(self.display, ln2, ln2_font)
+        self.display.draw.text((ln2_x, 20), ln2, font=ln2_font, fill=255)
 
         # Display Image to OLED
         self.display.capture_screenshot("splash")
@@ -153,15 +169,12 @@ class SplashScreen(Screen):
         self.display.show()
         time.sleep(self.duration)
 
-class NetworkScreen(Screen):
+class NetworkScreen(BaseScreen):
     img = Image.open(r"" + Utils.current_dir + "/img/ip-network.png")
 
     def render(self):
         hostname = self.utils.get_hostname()
         ipv4 = self.utils.get_ip()
-
-        # Clear Canvas
-        self.display.prepare()
 
         # Resize and merge icon to Canvas
         icon = self.img.resize([13,13])
@@ -176,15 +189,12 @@ class NetworkScreen(Screen):
 
         time.sleep(self.duration)
 
-class StorageScreen(Screen):
+class StorageScreen(BaseScreen):
     img = Image.open(r"" + Utils.current_dir + "/img/harddisk.png") 
 
     def render(self):
         storage =  Utils.shell_cmd('df -h | awk \'$NF=="/"{printf "%d,%d,%s", $3,$2,$5}\'')
         storage = storage.split(',')
-
-        # Clear Canvas
-        self.display.prepare()
 
         # Resize and merge icon to Canvas
         icon = self.img.resize([26,26])  
@@ -198,15 +208,12 @@ class StorageScreen(Screen):
         self.display.show()
         time.sleep(self.duration)
 
-class MemoryScreen(Screen):
+class MemoryScreen(BaseScreen):
     img = Image.open(r"" + Utils.current_dir + "/img/database.png")
 
     def render(self):
         mem = Utils.shell_cmd("free -m | awk 'NR==2{printf \"%.1f,%.1f,%.0f%%\", $3/1000,$2/1000,$3*100/$2 }'")
         mem = mem.split(',')
-
-        # Clear Canvas
-        self.display.prepare()
 
         # Resize and merge icon to Canvas
         icon = self.img.resize([26,26])  
@@ -220,7 +227,7 @@ class MemoryScreen(Screen):
         self.display.show()
         time.sleep(self.duration)
 
-class CpuScreen(Screen):
+class CpuScreen(BaseScreen):
     img = Image.open(r"" + Utils.current_dir + "/img/cpu-64-bit.png") 
 
     def set_temp_unit(self, unit):
@@ -244,9 +251,6 @@ class CpuScreen(Screen):
 
         # Check temapture unit and convert if required.
         temp = self.get_temp()
-
-        # Clear Canvas
-        self.display.prepare()
 
         # Resize and merge icon to Canvas
         icon = self.img.resize([26,26])  

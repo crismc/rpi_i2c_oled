@@ -5,10 +5,23 @@ import logging
 from bin.Config import Config
 from bin.Utils import Utils
 
+LOG_LEVEL = logging.WARNING
+
 def print_help():
     filename = os.path.basename(__file__)
-    print (filename + ' -c <config_path>')
-    print (filename + ' --config <config_path>')
+    print (filename + ' [OPTIONS]... -c <config_path>')
+    print (' ')
+    print ('-h, --help')
+    print ('   Prints out this help information')
+    print (' ')
+    print ('-d, --debug')
+    print ('   Enable debug mode, printing out the process steps to STDOUT. NOTE: This doesnt include i2c display debugging')
+    print (' ')
+    print ('-c <config_path>, --config <config_path>')
+    print ('   JSON options file')
+    print ('   example:')
+    print ('     ' + filename + ' -c /path/to/options.json')
+    print ('     ' + filename + ' --config /path/to/options.json')
 
 def start(config, logger):
     screens = config.get_enabled_screens()
@@ -16,10 +29,12 @@ def start(config, logger):
     if not screens:
         raise Exception("No screens are available")
 
+    config.enable_graceful_exit()
+
     while config.allow_master_render:
         for name in screens:
-            logger.info("'" + name + "' is being processed")
-            if config.allow_render(name):
+            if config.allow_screen_render(name):
+                logger.info("'" + name + "' is being processed")
                 try:
                     screen = config.screen_factory(name)
                     screen.run()
@@ -45,10 +60,9 @@ if __name__ == "__main__":
     args = sys.argv[1:]
     config_path = Utils.current_dir + '/options.json'
 
-    logger = set_logging_level(logging.INFO)
 
     try:
-        opts, args = getopt.getopt(args,"hc:",["config=", "help"])
+        opts, args = getopt.getopt(args,"hdc:",["config=", "help", "debug"])
     except getopt.GetoptError:
         print_help()
         sys.exit(2)
@@ -59,8 +73,19 @@ if __name__ == "__main__":
             sys.exit()
         elif opt in ("-c", "--config"):
             config_path = arg
+        elif opt in ("-d", "--debug"):
+            LOG_LEVEL = logging.INFO
+
+    logger = set_logging_level(LOG_LEVEL)
 
     if config_path:
-        config = Config(config_path)
+        try:
+            config = Config(config_path)
+        except Exception as e:
+            print(str(e))
+            sys.exit(2)
+    else:
+        logger.critical("No options.json file available.")
+        sys.exit(2)
 
     start(config, logger)

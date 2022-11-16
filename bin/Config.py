@@ -1,5 +1,6 @@
 import json
 import logging
+import signal
 from bin.Utils import Utils, HassioUtils
 from bin.Screens import *  
 
@@ -34,7 +35,6 @@ class Config:
         self._init_display()
         self._init_utils()
         self.enabled_screens = []
-        self.allow_master_render = True
         self.screen_limits = {}
 
     def _load_options(self, path):
@@ -48,7 +48,7 @@ class Config:
         if duration:
             self.default_duration = int(duration)
 
-    def allow_render(self, screen):
+    def allow_screen_render(self, screen):
         if self.allow_master_render:
             if screen in self.screen_limits:
                 if self.screen_limits[screen]:
@@ -58,7 +58,15 @@ class Config:
 
             return True
 
+        Config.logger.info('Master renderer killed... kill, kill, kill it with a knife')
         return False
+
+    @property
+    def allow_master_render(self):
+        if hasattr(self, 'graceful_exit'):
+            return not self.graceful_exit.exit
+
+        return True
 
     @property
     def is_hassio_supported(self):
@@ -80,8 +88,13 @@ class Config:
         return Config.hassio_supported
 
     def _init_display(self):
-        busnum = self.get_option_value('i2c_bus')
-        self.display = Display(busnum)
+        try:
+            busnum = None
+            if self.has_option('i2c_bus'):
+                busnum = int(self.get_option_value('i2c_bus'))
+            self.display = Display(busnum)
+        except Exception as e:
+            raise Exception("Could not create display. Check your i2c bus with 'ls /dev/i2c-*'.")
 
     def _init_utils(self):
         if self.is_hassio_supported:
@@ -158,10 +171,12 @@ class Config:
 
     def screen_factory(self, name):
         name = str(name).lower()
-        if name in self.enabled_screens:
+        if name == 'static':
+            return StaticScreen(self.default_duration, self.display, self.utils, self)
+        elif name in self.enabled_screens:
             class_name = name.capitalize() + 'Screen'
             duration = self.get_screen_duration(name)
-            screen = globals()[class_name](duration, self.display, self.utils)
+            screen = globals()[class_name](duration, self.display, self.utils, self)
 
             if name == 'cpu':
                 screen.set_temp_unit(self.get_option_value('temp_unit'))
@@ -169,3 +184,21 @@ class Config:
             return screen
         else:
             raise Exception(name + " is not an enabled screen")
+
+    def enable_graceful_exit(self):
+        screen = self.screen_factory('static')
+        self.graceful_exit = GracefulExit(screen)
+        Config.logger.info('Graceful exit enabled')
+
+class GracefulExit:
+  exit = False
+
+  def __init__(self, screen):
+    self.screen = screen
+    signal.signal(signal.SIGINT, self.exit_gracefully)
+    signal.signal(signal.SIGTERM, self.exit_gracefully)
+
+  def exit_gracefully(self, *args):
+    Config.logger.info('Exiting')
+    self.exit = True
+    self.screen.run('Goodbye')
