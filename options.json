@@ -1,5 +1,5 @@
 {
-    "HASIO": false,
+    "I2C_bus": 1,
     "Temperature_Unit": "C",
     "Default_Duration": 10,
     "Show_Welcome_Screen": true,
