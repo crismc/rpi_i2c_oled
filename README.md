@@ -163,6 +163,7 @@ python3 display.py --config /path/to/options.json
 | Show_CPU_Screen  | boolean | **Required** | Show the CPU Information screen         | `true`              |
 | Show_Memory_Screen  | boolean | **Required** | Show the Memory Information screen         | `true`              |
 | Show_Storage_Screen  | boolean | **Required** | Show the Storage Information screen         | `true`              |
+| Screenshot  | boolean or string | **Optional** | Saves a screenshot of the screen to the specified path, or to './img/examples/' if set to True         | `false`              |
 | *_Screen_Limit    | int | **Optional** | Number of times to show the screen in the cycle. Once limit is reached, display will no longer appear                            | null              |
 | *_Screen_Duration | int | **Optional** | How long in seconds to display the screen              | `10`              |
 

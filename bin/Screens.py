@@ -7,7 +7,7 @@ from bin.Utils import Utils, HassioUtils
 
 class Display:
     DEFAULT_BUSNUM = 1
-    SCREENSHOT_PATH = "./img/examples/{}.png"
+    SCREENSHOT_PATH = "./img/examples/"
 
     def __init__(self, busnum = None, screenshot = False):
         if not isinstance(busnum, int):
@@ -20,6 +20,7 @@ class Display:
         self.image = Image.new("1", (self.width, self.height))
         self.draw = ImageDraw.Draw(self.image)
         self.screenshot = screenshot
+        self.logger = logging.getLogger('Display')
 
     def clear(self):
         self.display.begin()
@@ -35,7 +36,14 @@ class Display:
 
     def capture_screenshot(self, name):
         if self.screenshot:
-            self.image.save(Display.SCREENSHOT_PATH.format(name))
+            if isinstance(self.screenshot, str):
+                dir = self.screenshot
+            else:
+                dir = Display.SCREENSHOT_PATH
+            
+            path = dir.rstrip('/') + '/' + name.lower() + '.png'
+            self.logger.info("saving screenshot to '" + path + "'")
+            self.image.save(path)
 
 class BaseScreen:
     font_path = Utils.current_dir + "/fonts/DejaVuSans.ttf"

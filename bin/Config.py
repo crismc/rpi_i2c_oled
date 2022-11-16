@@ -23,7 +23,8 @@ class Config:
         'duration': '{}_screen_duration',
         'temp_unit': 'temperature_unit',
         'default_duration': 'default_duration',
-        'i2c_bus': 'i2c_bus'
+        'i2c_bus': 'i2c_bus',
+        'screenshot': 'screenshot'
     }
 
     logger = logging.getLogger('Config')
@@ -32,8 +33,6 @@ class Config:
         self._load_options(path)
         self.default_duration = Config.DEFAULT_DURATION
         self._process_default_options()
-        self._init_display()
-        self._init_utils()
         self.enabled_screens = []
         self.screen_limits = {}
 
@@ -92,7 +91,7 @@ class Config:
             busnum = None
             if self.has_option('i2c_bus'):
                 busnum = int(self.get_option_value('i2c_bus'))
-            self.display = Display(busnum)
+            self.display = Display(busnum, self.get_option_value('screenshot'))
         except Exception as e:
             raise Exception("Could not create display. Check your i2c bus with 'ls /dev/i2c-*'.")
 
@@ -142,6 +141,13 @@ class Config:
 
         return self.enabled_screens
 
+    def add_option(self, key, value):
+        id = str(key.lower())
+        if id in Config.OPTION_KEYS:
+            self.options[key] = value
+            Config.logger.info("'" + str(value) + "' added to the '" + key + "' config")
+        return False
+
     def has_option(self, key, screen = None):
         id = str(key.lower())
 
@@ -171,6 +177,13 @@ class Config:
 
     def screen_factory(self, name):
         name = str(name).lower()
+
+        if not hasattr(self, 'display'):
+            self._init_display()
+
+        if not hasattr(self, 'utils'):
+            self._init_utils()
+
         if name == 'static':
             return StaticScreen(self.default_duration, self.display, self.utils, self)
         elif name in self.enabled_screens:
