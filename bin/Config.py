@@ -91,7 +91,12 @@ class Config:
             busnum = None
             if self.has_option('i2c_bus'):
                 busnum = int(self.get_option_value('i2c_bus'))
-            self.display = Display(busnum, self.get_option_value('screenshot'))
+
+            screenshot = self.get_option_value('screenshot')
+            if not screenshot:
+                screenshot = False
+
+            self.display = Display(busnum, screenshot)
         except Exception as e:
             raise Exception("Could not create display. Check your i2c bus with 'ls /dev/i2c-*'.")
 
