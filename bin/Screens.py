@@ -149,24 +149,26 @@ class SplashScreen(BaseScreen):
         if (core_upgrade == True):
             core_version =  core_version + "*"
 
+        img_size = 26
+        padding = 10
+        textbox_x = img_size + padding
+
         # Get HA Logo and Resize
-        logo = self.img.resize([26,26])
+        logo = self.img.resize([img_size, img_size])
         logo = ImageOps.invert(logo)  
         
         # Merge HA Logo with Canvas.
         self.display.image.paste(logo,(-2,3))
-        self.display.draw.line([(34, 16),(123,16)], fill=255, width=1)
+        self.display.draw.line([(textbox_x, 16),(123,16)], fill=255, width=1)
 
-        ln1 = "Home Assistant"
+        ln1 = self.utils.get_hostname()
         ln1_font = self.font(9, True)
-        ln1_x, ln1_y = Utils.get_text_center(self.display, ln1, ln1_font)
-        self.display.draw.text((ln1_x, 2), ln1, font=ln1_font, fill=255)
+        self.display.draw.text((textbox_x, 2), ln1, font=ln1_font, fill=255)
 
         # Write Test, Eventually will get from HA API.
         ln2 = 'OS '+ os_version + ' - ' + core_version
         ln2_font = self.font(8)
-        ln2_x, ln2_y = Utils.get_text_center(self.display, ln2, ln2_font)
-        self.display.draw.text((ln2_x, 20), ln2, font=ln2_font, fill=255)
+        self.display.draw.text((textbox_x, 20), ln2, font=ln2_font, fill=255)
 
         # Display Image to OLED
         self.display.capture_screenshot("splash")
