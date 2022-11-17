@@ -12,7 +12,8 @@ class Config:
         'network',
         'storage',
         'memory',
-        'cpu'
+        'cpu',
+        'static'
     ]
     HASSIO_DEPENDENT_SCREENS = [
         'Splash'
@@ -24,7 +25,9 @@ class Config:
         'temp_unit': 'temperature_unit',
         'default_duration': 'default_duration',
         'i2c_bus': 'i2c_bus',
-        'screenshot': 'screenshot'
+        'screenshot': 'screenshot',
+        'graceful_exit_text': 'graceful_exit_text',
+        'static_screen_text': 'static_screen_text'
     }
 
     logger = logging.getLogger('Config')
@@ -190,7 +193,12 @@ class Config:
             self._init_utils()
 
         if name == 'static':
-            return StaticScreen(self.default_duration, self.display, self.utils, self)
+            duration = self.get_screen_duration(name)
+            screen = StaticScreen(duration, self.display, self.utils, self)
+            static_text = self.get_option_value('static_text')
+            if static_text:
+                screen.add_text(static_text)
+            return screen
         elif name in self.enabled_screens:
             class_name = name.capitalize() + 'Screen'
             duration = self.get_screen_duration(name)
@@ -205,6 +213,12 @@ class Config:
 
     def enable_graceful_exit(self):
         screen = self.screen_factory('static')
+        text = self.get_option_value('graceful_exit_text')
+        if not text:
+            text = 'Goodbye'
+            
+        screen.add_text(text)
+
         self.graceful_exit = GracefulExit(screen)
         Config.logger.info('Graceful exit enabled')
 
@@ -219,4 +233,4 @@ class GracefulExit:
   def exit_gracefully(self, *args):
     Config.logger.info('Exiting')
     self.exit = True
-    self.screen.run('Goodbye')
+    self.screen.run()

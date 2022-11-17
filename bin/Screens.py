@@ -58,6 +58,10 @@ class BaseScreen:
         self.logger = logging.getLogger('Screen')
         self.logger.info("'" + self.__class__.__name__ + "' created")
 
+    @property
+    def name(self):
+        return str(self.__class__.__name__).lower().replace("screen", "")
+
     def font(self, size, is_bold = False):
         suffix = None
         if is_bold:
@@ -74,8 +78,28 @@ class BaseScreen:
             BaseScreen.fonts[key] = font
         return BaseScreen.fonts[key]
 
+    @property
+    def default_message(self):
+        return 'Welcome to ' + self.utils.get_hostname()
+
     def render(self):
         self.display.show()
+
+    def render_scroller(self, text, font, amplitude = 0, startpos = None):
+        if not startpos:
+            startpos = self.display.width
+        scroller = Scroller(text, startpos, amplitude, font, self.display)
+        timer = time.time() + self.duration
+        while self.config.allow_screen_render(self.name):
+            self.display.prepare()
+            scroller.render()
+            self.display.show()
+            
+            if scroller.pos == 2:
+                self.capture_screen()
+
+            if not self.config.allow_screen_render(self.name) or not scroller.move_for_next_frame(time.time() < timer):
+                break
 
     def run(self):
         self.logger.info("'" + self.__class__.__name__ + "' rendering")
@@ -84,21 +108,31 @@ class BaseScreen:
         self.logger.info("'" + self.__class__.__name__ + "' completed")
 
 class StaticScreen(BaseScreen):
-    def render(self, text):
+    def add_text(self, text):
+        self.static_text = str(text)
+
+    @property
+    def text(self):
+        if not hasattr(self, 'static_text'):
+            self.add_text(self.default_message)
+        return self.static_text
+
+    def capture_screenshot(self):
+        slug = Utils.slugify(self.text)
+        super().capture_screenshot("static_" + slug)
+
+    def render(self):
         self.display.prepare()
         font = self.font(16)
-        x, y = Utils.get_text_center(self.display, text, font)
-        self.display.draw.text((x, y), text, font=font, fill=255)
-        self.display.show()
-        slug = Utils.slugify(text)
-        self.display.capture_screenshot("static_" + slug)
 
-    def run(self, text):
-        self.logger.info("'" + self.__class__.__name__ + "' rendering")
-        self.display.clear()
-        self.display.prepare()
-        self.render(text)
-        self.logger.info("'" + self.__class__.__name__ + "' completed")
+        if Utils.requires_scroller(self.display, self.text, font):
+            self.render_scroller(self.text, font)
+        else:
+            x, y = Utils.get_text_center(self.display, self.text, font)
+            self.display.draw.text((x, y), self.text, font=font, fill=255)
+            self.display.show()
+            self.capture_screenshot()
+            time.sleep(self.duration)
 
 class WelcomeScreen(BaseScreen):
     def render(self):
@@ -106,24 +140,12 @@ class WelcomeScreen(BaseScreen):
         Animated welcome screen
         Scrolls 'Welcome [hostname]' across the screen
         '''
-        hostname = self.utils.get_hostname()
         height = self.display.height
         width = self.display.width
         font = self.font(16)
-        message = 'Welcome to ' + hostname
-        scroller = Scroller(message, width, height/6, font, self.display)
-        timer = time.time() + self.duration
+        message = self.default_message
 
-        while self.config.allow_screen_render('welcome'):
-            self.display.prepare()
-            scroller.render()
-            self.display.show()
-            
-            if scroller.pos == 2:
-                self.display.capture_screenshot("welcome")
-
-            if not self.config.allow_screen_render('welcome') or not scroller.move_for_next_frame(time.time() < timer):
-                break
+        self.render_scroller(message, font, height/6)
 
 class SplashScreen(BaseScreen):
     img = Image.open(r"" + Utils.current_dir + "/img/home-assistant-logo.png")

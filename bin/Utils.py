@@ -24,12 +24,19 @@ class Utils:
         return [width, height]
 
     @staticmethod
+    def requires_scroller(display, text, font):
+        w, unused = Utils.get_text_size(display, text, font)
+        return display.width < w
+
+    @staticmethod
     def get_hostname(opt = ""):
         return Utils.shell_cmd("hostname " + opt + "| cut -d\' \' -f1")
 
     @staticmethod
     def get_ip():
         return Utils.get_hostname('-I')
+
+
 
     @staticmethod
     def slugify(text):
