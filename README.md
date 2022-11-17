@@ -13,9 +13,9 @@ This repository has been broken out to work as a standalone service and will wor
 <br>
 
 ## Some Teaser Screenshots.
-| Welcome | HA Splash | CPU Stats | RAM Stats | Storage Stats | Network Stats | 
-|-----------|-----------|-----------|-----------|---------------|---------------|
-| ![Welcome][welcome-url] | ![Splash][splash-url] | ![CPU Stats][cpu-stats-url] | ![RAM Stats][ram-stats-url] | ![Storage Stats][storage-stats-url] | ![Network Stats][network-stats-url]
+| Welcome | HA Splash | CPU Stats | RAM Stats | Storage Stats | Network Stats | Exit Screen | 
+|-----------|-----------|-----------|-----------|---------------|---------------|---------------|
+| ![Welcome][welcome-url] | ![Splash][splash-url] | ![CPU Stats][cpu-stats-url] | ![RAM Stats][ram-stats-url] | ![Storage Stats][storage-stats-url] | ![Network Stats][network-stats-url] ![Exit][exit-url]
 
 <br>
 <br>
@@ -248,3 +248,4 @@ MIT license, all text above must be included in any redistribution
 [storage-stats-url]: /img/examples/storage.png?raw=true
 [network-stats-url]: /img/examples/network.png?raw=true
 [splash-url]: /img/examples/splash.png?raw=true
+[exit-url]: /img/examples/static_goodbye.png?raw=true
