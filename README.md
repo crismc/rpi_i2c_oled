@@ -15,7 +15,7 @@ This repository has been broken out to work as a standalone service and will wor
 ## Some Teaser Screenshots.
 | Welcome | HA Splash | CPU Stats | RAM Stats | Storage Stats | Network Stats | Exit Screen | 
 |-----------|-----------|-----------|-----------|---------------|---------------|---------------|
-| ![Welcome][welcome-url] | ![Splash][splash-url] | ![CPU Stats][cpu-stats-url] | ![RAM Stats][ram-stats-url] | ![Storage Stats][storage-stats-url] | ![Network Stats][network-stats-url] ![Exit][exit-url]
+| ![Welcome][welcome-url] | ![Splash][splash-url] | ![CPU Stats][cpu-stats-url] | ![RAM Stats][ram-stats-url] | ![Storage Stats][storage-stats-url] | ![Network Stats][network-stats-url] | ![Exit][exit-url] |
 
 <br>
 <br>
