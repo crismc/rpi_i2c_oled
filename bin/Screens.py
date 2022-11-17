@@ -159,14 +159,14 @@ class SplashScreen(BaseScreen):
 
         ln1 = "Home Assistant"
         ln1_font = self.font(9, True)
-        # ln1_x, ln1_y = Utils.get_text_center(self.display, ln1, ln1_font)
-        self.display.draw.text((50, 2), ln1, font=ln1_font, fill=255)
+        ln1_x, ln1_y = Utils.get_text_center(self.display, ln1, ln1_font)
+        self.display.draw.text((ln1_x, 2), ln1, font=ln1_font, fill=255)
 
         # Write Test, Eventually will get from HA API.
         ln2 = 'OS '+ os_version + ' - ' + core_version
         ln2_font = self.font(8)
-        # ln2_x, ln2_y = Utils.get_text_center(self.display, ln2, ln2_font)
-        self.display.draw.text((50, 20), ln2, font=ln2_font, fill=255)
+        ln2_x, ln2_y = Utils.get_text_center(self.display, ln2, ln2_font)
+        self.display.draw.text((ln2_x, 20), ln2, font=ln2_font, fill=255)
 
         # Display Image to OLED
         self.display.capture_screenshot("splash")
