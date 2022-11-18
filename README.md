@@ -99,6 +99,13 @@ Those who want to get started quickly and conveniently may install the RPI_I2C_O
 curl -sSL https://raw.githubusercontent.com/crismc/rpi_i2c_oled/v1.0.0/basic-install.sh | sudo bash
 ```
 
+This will download the latest release, and install it as a service. Once run, you can control the ```oled``` service by the following:
+```
+sudo service oled start
+sudo service oled stop
+sudo service oled restart
+```
+
 Installing From Source
 ------------------------
 Initial apt-get installs:
