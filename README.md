@@ -17,6 +17,26 @@ This repository has been broken out to work as a standalone service and will wor
 |-----------|-----------|-----------|-----------|---------------|---------------|---------------|
 | ![Welcome][welcome-url] | ![Splash][splash-url] | ![CPU Stats][cpu-stats-url] | ![RAM Stats][ram-stats-url] | ![Storage Stats][storage-stats-url] | ![Network Stats][network-stats-url] | ![Exit][exit-url] |
 
+## Custom Screen & Static Text Variables
+Aswell as the above screens, you can configure a static custom screen which can be fixed or animated.
+
+If the configured text is greater than the screen size, it will scroll across the screen unless you configure it to display as lines. Scrolling animations also supports configurable apmlitude enabling the text to wave up and down as it scrolls.
+
+![Exit][exit-url]
+![Welcome][welcome-url]
+
+This screen can take variables to help personalise your view:
+```
+"Static_Screen_Text": "Today is {datetime}, running hassio verion {hassio.os.version} on {hostname} with IP {ip}"
+```
+The following variables are supported
+| Variable               | Description |
+|------------------------|-------------|
+| {datetime}             | Displays the current datetime based on the defined format specified in the ```DateTime_Format``` config option. |
+| {hostname}             | Displays the current hostname of the host device |
+| {ip}                   | Displays the host device IP |
+| {hassio.info.property} | Fetches a specified property from Home Assistants supervisor API (e.g. http://supervisor/os/info). You can state the namespace and property which will populate with the responding value. This must be fixed with hassio first, followed by the namespace (e.g. os, network etc), then the property e.g. hassio.os.latest_version will call http://supervisor/os/info and display the ```latest_version``` value. |
+
 <br>
 <br>
 
@@ -77,6 +97,13 @@ One-Step Automated Install
 Those who want to get started quickly and conveniently may install the RPI_I2C_OLED using the following command:
 ```
 curl -sSL https://raw.githubusercontent.com/crismc/rpi_i2c_oled/v1.0.0/basic-install.sh | sudo bash
+```
+
+This will download the latest release, and install it as a service. Once run, you can control the ```oled``` service by the following:
+```
+sudo service oled start
+sudo service oled stop
+sudo service oled restart
 ```
 
 Installing From Source
@@ -157,7 +184,14 @@ python3 display.py --config /path/to/options.json
 | i2c_bus     | int  | **Required** | I2C bus number. /dev/i2c-[bus number]                  | `1`                 |
 | Temperature_Unit     | string  | **Required** | Display the CPU temperature in C or F                  | `C`                 |
 | Default_Duration     | int     | **Required** | How long in seconds to display each screen by default. Ignored if specified on specific screen  | `10`                |
+| DateTime_Format      | string  | **Optional** | Format of the ```{datetime}``` static text variable  | `%d/%m/%Y %H:%M:%S` |
+| Graceful_Exit_Text   | string  | **Optional** | Text to display when the service is exited. Accepts same variables as the custom screen.  | `Exited at {datetime}` |
+| Static_Screen_Text   | string  | **Optional** | Text to display when the ```Show_Static_Screen``` is enabled. Accepts all static text variables.  | `Hassio verion {hassio.os.version} on {hostname} with IP {ip}` |
+| Static_Screen_Text_NoScroll  | boolean | **Optional** | Disable the scrolling animation if the static text its too large to fit. If set to true, make a best effort to stack the text as centered lines        | `false`              |
+| Static_Screen_Text_Animated_Wave  | int | **Optional** | Amount of wave action the custom text scrolling animation has. The bigger the number, the bigger the wave. | `8`              |
+| Show_Static_Screen  | boolean | **Required** | Show the static screen with the specified custom text         | `false`              |
 | Show_Welcome_Screen  | boolean | **Required** | Show the animated Welcome to `hostname` screen         | `true`              |
+| Welcome_Screen_Text  | string | **Optional** | Text to display when the ```Show_Welcome_Screen``` is enabled. Accepts all static text variables.         | `Welcome to {hostname}`              |
 | Show_Splash_Screen  | boolean | **Required** | Show the Home Assistant core and version screen. I you're not using Home Assistant, leave this false         | `false`              |
 | Show_Network_Screen  | boolean | **Required** | Show the Network Information screen         | `true`              |
 | Show_CPU_Screen  | boolean | **Required** | Show the CPU Information screen         | `true`              |

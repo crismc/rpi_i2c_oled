@@ -12,7 +12,8 @@ class Config:
         'network',
         'storage',
         'memory',
-        'cpu'
+        'cpu',
+        'static'
     ]
     HASSIO_DEPENDENT_SCREENS = [
         'Splash'
@@ -24,7 +25,13 @@ class Config:
         'temp_unit': 'temperature_unit',
         'default_duration': 'default_duration',
         'i2c_bus': 'i2c_bus',
-        'screenshot': 'screenshot'
+        'screenshot': 'screenshot',
+        'graceful_exit_text': 'graceful_exit_text',
+        'static_screen_text': 'static_screen_text',
+        'static_screen_text_noscroll': 'static_screen_text_noscroll',
+        'static_screen_text_animated_wave': 'static_screen_text_animated_wave',
+        'datetime_format': 'datetime_format',
+        'welcome_screen_text': 'welcome_screen_text'
     }
 
     logger = logging.getLogger('Config')
@@ -105,6 +112,10 @@ class Config:
             self.utils = HassioUtils
         else:
             self.utils = Utils
+
+        datetime_format = self.get_option_value('datetime_format')
+        if datetime_format:
+            self.utils.datetime_format = datetime_format
 
     def enable_screen(self, name):
         if name in Config.SUPPORTED_SCREENS and name not in self.enabled_screens:
@@ -190,7 +201,15 @@ class Config:
             self._init_utils()
 
         if name == 'static':
-            return StaticScreen(self.default_duration, self.display, self.utils, self)
+            duration = self.get_screen_duration(name)
+            screen = StaticScreen(duration, self.display, self.utils, self)
+            static_text = self.get_option_value('static_screen_text')
+            if static_text:
+                screen.text = static_text
+                screen.amplitude = self.get_option_value('static_screen_text_animated_wave')
+                if self.get_option_value('static_screen_text_noscroll'):
+                    screen.noscroll = True
+            return screen
         elif name in self.enabled_screens:
             class_name = name.capitalize() + 'Screen'
             duration = self.get_screen_duration(name)
@@ -199,24 +218,40 @@ class Config:
             if name == 'cpu':
                 screen.set_temp_unit(self.get_option_value('temp_unit'))
 
+            if name == 'welcome':
+                screen.text = self.get_option_value('welcome_screen_text')
+
             return screen
         else:
             raise Exception(name + " is not an enabled screen")
 
     def enable_graceful_exit(self):
         screen = self.screen_factory('static')
+        text = self.get_option_value('graceful_exit_text')
+        if not text:
+            text = 'Goodbye'
+        
+        screen.text = text
+        screen.duration = 0
+        screen.noscroll = True
+
         self.graceful_exit = GracefulExit(screen)
         Config.logger.info('Graceful exit enabled')
 
 class GracefulExit:
-  exit = False
+    exit = False
+    exiting = False
+    def __init__(self, screen):
+        self.screen = screen
+        signal.signal(signal.SIGINT, self.exit_gracefully)
+        signal.signal(signal.SIGTERM, self.exit_gracefully)
 
-  def __init__(self, screen):
-    self.screen = screen
-    signal.signal(signal.SIGINT, self.exit_gracefully)
-    signal.signal(signal.SIGTERM, self.exit_gracefully)
-
-  def exit_gracefully(self, *args):
-    Config.logger.info('Exiting')
-    self.exit = True
-    self.screen.run('Goodbye')
+    def exit_gracefully(self, *args):
+        self.exit = True
+        if not self.exiting:
+            self.exiting = True
+            Config.logger.info('Exiting')
+            # self.screen.display.clear()
+            # self.screen.display.prepare()
+            # self.screen.display.show()
+            self.screen.run()

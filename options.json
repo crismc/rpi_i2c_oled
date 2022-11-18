@@ -1,10 +1,14 @@
 {
     "I2C_bus": 1,
     "Temperature_Unit": "C",
+    "DateTime_Format": "%d/%m/%Y %H:%M:%S",
     "Default_Duration": 10,
+    "graceful_exit_text": "Exited at {datetime}",
+
     "Show_Welcome_Screen": true,
     "Welcome_Screen_Limit": 5,
     "Welcome_Screen_Duration": null,
+    "Welcome_Screen_Text": "Welcome to {hostname}",
     
     "Show_Splash_Screen": false,
     "Splash_Screen_Limit": null,
@@ -24,5 +28,12 @@
     
     "Show_CPU_Screen": true,
     "CPU_Screen_Limit": null,
-    "CPU_Screen_Duration": 5
+    "CPU_Screen_Duration": 5,
+
+    "Show_Static_Screen": false,
+    "Static_Screen_Limit": null,
+    "Static_Screen_Duration": 5,
+    "Static_Screen_Text": "Hassio verion {hassio.os.version} on {hostname} with IP {ip}",
+    "static_Screen_Text_NoScroll": false,
+    "Static_Screen_Text_Animated_Wave": 8
 }

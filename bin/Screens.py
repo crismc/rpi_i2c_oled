@@ -1,10 +1,10 @@
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 import time
 import logging
+import textwrap
 from bin.SSD1306 import SSD1306_128_32 as SSD1306
 from bin.Scroller import Scroller
-from bin.Utils import Utils, HassioUtils
-
+from bin.Utils import Utils
 class Display:
     DEFAULT_BUSNUM = 1
     SCREENSHOT_PATH = "./img/examples/"
@@ -58,6 +58,15 @@ class BaseScreen:
         self.logger = logging.getLogger('Screen')
         self.logger.info("'" + self.__class__.__name__ + "' created")
 
+    @property
+    def name(self):
+        return str(self.__class__.__name__).lower().replace("screen", "")
+
+    def capture_screenshot(self, name = None):
+        if not name:
+            name = self.name
+        self.display.capture_screenshot(name)
+
     def font(self, size, is_bold = False):
         suffix = None
         if is_bold:
@@ -74,8 +83,28 @@ class BaseScreen:
             BaseScreen.fonts[key] = font
         return BaseScreen.fonts[key]
 
+    @property
+    def default_message(self):
+        return 'Welcome to ' + self.utils.get_hostname()
+
     def render(self):
         self.display.show()
+
+    def render_scroller(self, text, font, amplitude = 0, startpos = None):
+        if not startpos:
+            startpos = self.display.width
+        scroller = Scroller(text, startpos, amplitude, font, self.display)
+        timer = time.time() + self.duration
+        while self.config.allow_screen_render(self.name):
+            self.display.prepare()
+            scroller.render()
+            self.display.show()
+            
+            if scroller.pos == 2:
+                self.capture_screenshot()
+
+            if not self.config.allow_screen_render(self.name) or not scroller.move_for_next_frame(time.time() < timer):
+                break
 
     def run(self):
         self.logger.info("'" + self.__class__.__name__ + "' rendering")
@@ -84,52 +113,124 @@ class BaseScreen:
         self.logger.info("'" + self.__class__.__name__ + "' completed")
 
 class StaticScreen(BaseScreen):
-    def render(self, text):
+    @property
+    def text(self):
+        if not self._text:
+            self.text = self.default_message
+            self.logger.info("No static text found")
+
+        if not self._text_compiled:
+            self._text_compiled = True
+            self._text = self.utils.compile_text(self._text)
+            self.logger.info("Static screen text compiled: '" + self._text + "'")
+
+        return self._text
+
+    @text.setter
+    def text(self, text):
+        self._text = str(text)
+        self._text_compiled = False
+        self.logger.info("Static screen text: '" + self._text + "' added")
+
+    @property
+    def noscroll(self):
+        if not hasattr(self, '_noscroll'):
+            return False
+        return self._noscroll
+
+    @noscroll.setter
+    def noscroll(self, state):
+        self._noscroll = bool(state)
+        self.logger.info("Static screens text animated has been set to '" + str(self._noscroll) + "'")
+
+    @property
+    def amplitude(self):
+        if not self._amplitude:
+            return 0
+        return self._amplitude
+
+    @amplitude.setter
+    def amplitude(self, amplitude):
+        self._amplitude = int(amplitude) * -1
+        self.logger.info("Static screen amplitude: '" + str(self._amplitude) + "' set")
+
+    def capture_screenshot(self):
+        slug = Utils.slugify(self.text)
+        super().capture_screenshot("static_" + slug)
+
+    def render(self):
         self.display.prepare()
         font = self.font(16)
-        x, y = Utils.get_text_center(self.display, text, font)
-        self.display.draw.text((x, y), text, font=font, fill=255)
-        self.display.show()
-        slug = Utils.slugify(text)
-        self.display.capture_screenshot("static_" + slug)
+        text = self.text
+        amplitude = self.amplitude
 
-    def run(self, text):
-        self.logger.info("'" + self.__class__.__name__ + "' rendering")
-        self.display.clear()
-        self.display.prepare()
-        self.render(text)
-        self.logger.info("'" + self.__class__.__name__ + "' completed")
+        self.logger.info("Rendering static text: " + text + " with an amplitude of " + str(amplitude))
+        if not self.noscroll and Utils.requires_scroller(self.display, text, font):
+            self.render_scroller(text, font, amplitude)
+        else:
+            if not Utils.does_text_width_fit(self.display, text, font):
+                self.logger.info("Static text too wide for screen")
+                lines = textwrap.wrap(text, width=15)
+                font = self.font(12)
+                text_leading = 3
+                y_text = self.display.height
+                for i, line in enumerate(lines):
+                    width, height = Utils.get_text_size(self.display, line, font)
+                    new_y = y_text - height - (text_leading / 2)
+                    if new_y > 0:
+                        y_text = new_y
+                    else:
+                        y_text = 0
+                        break
+
+                y_text /= 2
+                for line in lines:
+                    width, height = Utils.get_text_size(self.display, line, font)
+                    left = (self.display.width - width) / 2
+                    self.display.draw.text((left, y_text), line, font=font, fill=255)
+                    y_text += (height + text_leading)
+            else:
+                x, y = Utils.get_text_center(self.display, text, font)
+                self.display.draw.text((x, y), self.text, font=font, fill=255)
+
+            self.display.show()
+            self.capture_screenshot()
+            time.sleep(self.duration)
 
 class WelcomeScreen(BaseScreen):
+    @property
+    def text(self):
+        if not self._text:
+            self.text = self.default_message
+            self.logger.info("No configured welcome text found")
+
+        if not self._text_compiled:
+            self._text_compiled = True
+            self._text = self.utils.compile_text(self._text)
+            self.logger.info("Welcome screen text compiled: '" + self._text + "'")
+
+        return self._text
+
+    @text.setter
+    def text(self, text):
+        self._text = str(text)
+        self._text_compiled = False
+        self.logger.info("Welcome screen text: '" + self._text + "' added")
+
     def render(self):
         '''
         Animated welcome screen
         Scrolls 'Welcome [hostname]' across the screen
         '''
-        hostname = self.utils.get_hostname()
         height = self.display.height
-        width = self.display.width
         font = self.font(16)
-        message = 'Welcome to ' + hostname
-        scroller = Scroller(message, width, height/6, font, self.display)
-        timer = time.time() + self.duration
-
-        while self.config.allow_screen_render('welcome'):
-            self.display.prepare()
-            scroller.render()
-            self.display.show()
-            
-            if scroller.pos == 2:
-                self.display.capture_screenshot("welcome")
-
-            if not self.config.allow_screen_render('welcome') or not scroller.move_for_next_frame(time.time() < timer):
-                break
+        self.render_scroller(self.text, font, height/6)
 
 class SplashScreen(BaseScreen):
     img = Image.open(r"" + Utils.current_dir + "/img/home-assistant-logo.png")
 
-    def __init__(self, duration, font, display, utils):
-        super().__init__(duration, font, display, utils)
+    def __init__(self, duration, display = Display(), utils = Utils(), config = None):
+        super().__init__(duration, display, utils, config)
 
     def render(self):
         '''
@@ -171,7 +272,7 @@ class SplashScreen(BaseScreen):
         self.display.draw.text((textbox_x, 20), ln2, font=ln2_font, fill=255)
 
         # Display Image to OLED
-        self.display.capture_screenshot("splash")
+        self.capture_screenshot()
 
         self.display.show()
         time.sleep(self.duration)
@@ -191,7 +292,7 @@ class NetworkScreen(BaseScreen):
         self.display.draw.text((0, 18), "IP4 " + ipv4, font=self.font(12), fill=255)    
         #draw.text((29, 21), "MAC " + mac.upper(), font=small, fill=255)    
 
-        self.display.capture_screenshot("network")
+        self.capture_screenshot()
         self.display.show()
 
         time.sleep(self.duration)
@@ -211,7 +312,7 @@ class StorageScreen(BaseScreen):
         self.display.draw.text((29, 11), "TOTAL: " + storage[1] + ' GB \n', font=self.font(8), fill=255)
         self.display.draw.text((29, 21), "UTILISED: " + storage[2] + ' \n', font=self.font(8), fill=255) 
 
-        self.display.capture_screenshot("storage")
+        self.capture_screenshot()
         self.display.show()
         time.sleep(self.duration)
 
@@ -230,7 +331,7 @@ class MemoryScreen(BaseScreen):
         self.display.draw.text((29, 11), "TOTAL: " + mem[1] + ' GB \n', font=self.font(8), fill=255)
         self.display.draw.text((29, 21), "UTILISED: " + mem[2] + ' \n', font=self.font(8), fill=255)  
 
-        self.display.capture_screenshot("memory")
+        self.capture_screenshot()
         self.display.show()
         time.sleep(self.duration)
 
@@ -267,7 +368,7 @@ class CpuScreen(BaseScreen):
         self.display.draw.text((29, 11), 'LOAD: '+ cpu + "% ", font=self.font(8), fill=255)  
         self.display.draw.text((29, 21), uptime.upper(), font=self.font(8), fill=255)
 
-        self.display.capture_screenshot("cpu")
+        self.capture_screenshot()
         
         self.display.show()
         time.sleep(self.duration)
