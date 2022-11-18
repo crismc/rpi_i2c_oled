@@ -30,6 +30,25 @@ if [ ! $VERSION ]; then
     exit $E_NOTROOT
 fi
 
+command -v git >/dev/null 2>&1 ||
+{ echo >&2 "Git is not installed. Installing..";
+    which apt >/dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echo "Apt package manager found"
+        apt-get install git -y
+    else
+        which yum >/dev/null 2>&1
+        if [ $? -eq 0 ]; then
+            echo "Yum package manager found"
+            yum install git -y
+        else
+            echo "Can't work out your package manager."
+            echo "Please install git first before running this installer"
+            exit
+        fi
+    fi
+}
+
 echo "Getting rpi_i2c_oled"
 git clone -b $VERSION --single-branch --depth 1 https://github.com/$REPO.git $TEMP_PATH
 
