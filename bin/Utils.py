@@ -69,7 +69,9 @@ class Utils:
 class HassioUtils(Utils):
     @staticmethod
     def hassos_get_info(type):
-        cmd = 'curl -sSL -H "Authorization: Bearer $SUPERVISOR_TOKEN" -H "Content-Type: application/json" http://supervisor/{}'.format(type)
+        url = 'http://supervisor/{}'.format(type)
+        Utils.logger.info("Requesting data from '" + url + "'")
+        cmd = 'curl -sSL -H "Authorization: Bearer $SUPERVISOR_TOKEN" -H "Content-Type: application/json" ' + url
         info = Utils.shell_cmd(cmd)
         return json.loads(info)
 
@@ -85,7 +87,11 @@ class HassioUtils(Utils):
 
     @staticmethod
     def compile_text(text, additional_replacements = {}):
-        text = Utils.compile_text(text, additional_replacements)
+        replacements = {
+            "{hostname}": lambda prop: HassioUtils.get_hostname(),
+            "{ip}": lambda prop: HassioUtils.get_ip()
+        }
+        text = Utils.compile_text(text, {**replacements, **additional_replacements})
         regex = re.compile("{hassio\.[a-z]+\.[a-z\.]+}")
         return regex.sub(lambda match: HassioUtils.get_hassio_info_property(match.string[match.start():match.end()][len("hassio\."):-1]), text)
 

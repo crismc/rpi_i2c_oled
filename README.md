@@ -20,7 +20,9 @@ This repository has been broken out to work as a standalone service and will wor
 ## Custom Screen & Static Text Variables
 Aswell as the above screens, you can configure a static custom screen which can be fixed or animated.
 
-If the configured text is greater than the screen size, it will scroll across the screen unless you configure it to display as lines. Scrolling animations also supports configurable apmlitude enabling the text to wave up and down as it scrolls.
+If the configured text is greater than the screen size, it will scroll across the screen unless you configure it to display as lines.
+
+Scrolling animations also supports configurable apmlitude enabling the text to wave up and down as it scrolls.
 
 ![Exit][exit-url]
 ![Welcome][welcome-url]
@@ -188,7 +190,7 @@ python3 display.py --config /path/to/options.json
 | Graceful_Exit_Text   | string  | **Optional** | Text to display when the service is exited. Accepts same variables as the custom screen.  | `Exited at {datetime}` |
 | Static_Screen_Text   | string  | **Optional** | Text to display when the ```Show_Static_Screen``` is enabled. Accepts all static text variables.  | `Hassio verion {hassio.os.version} on {hostname} with IP {ip}` |
 | Static_Screen_Text_NoScroll  | boolean | **Optional** | Disable the scrolling animation if the static text its too large to fit. If set to true, make a best effort to stack the text as centered lines        | `false`              |
-| Static_Screen_Text_Animated_Wave  | int | **Optional** | Amount of wave action the custom text scrolling animation has. The bigger the number, the bigger the wave. | `8`              |
+| Scroll_Amplitude  | int | **Optional** | Amount of wave action the scrolling animation text has. The bigger the number, the bigger the wave. | `6`              |
 | Show_Static_Screen  | boolean | **Required** | Show the static screen with the specified custom text         | `false`              |
 | Show_Welcome_Screen  | boolean | **Required** | Show the animated Welcome to `hostname` screen         | `true`              |
 | Welcome_Screen_Text  | string | **Optional** | Text to display when the ```Show_Welcome_Screen``` is enabled. Accepts all static text variables.         | `Welcome to {hostname}`              |

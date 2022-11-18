@@ -3,6 +3,7 @@ import logging
 import signal
 from bin.Utils import Utils, HassioUtils
 from bin.Screens import *  
+from bin.Scroller import Scroller
 
 class Config:
     DEFAULT_DURATION = 10
@@ -29,7 +30,7 @@ class Config:
         'graceful_exit_text': 'graceful_exit_text',
         'static_screen_text': 'static_screen_text',
         'static_screen_text_noscroll': 'static_screen_text_noscroll',
-        'static_screen_text_animated_wave': 'static_screen_text_animated_wave',
+        'scroll_amplitude': 'scroll_amplitude',
         'datetime_format': 'datetime_format',
         'welcome_screen_text': 'welcome_screen_text'
     }
@@ -53,6 +54,10 @@ class Config:
         duration = self.get_option_value('default_duration')
         if duration:
             self.default_duration = int(duration)
+
+        scroller_amplitude = self.get_option_value('scroll_amplitude')
+        if scroller_amplitude:
+            Scroller.default_amplitude = scroller_amplitude
 
     def allow_screen_render(self, screen):
         if self.allow_master_render:
@@ -206,7 +211,6 @@ class Config:
             static_text = self.get_option_value('static_screen_text')
             if static_text:
                 screen.text = static_text
-                screen.amplitude = self.get_option_value('static_screen_text_animated_wave')
                 if self.get_option_value('static_screen_text_noscroll'):
                     screen.noscroll = True
             return screen
@@ -220,7 +224,7 @@ class Config:
 
             if name == 'welcome':
                 screen.text = self.get_option_value('welcome_screen_text')
-
+                screen.amplitude = self.get_option_value('scroll_amplitude')
             return screen
         else:
             raise Exception(name + " is not an enabled screen")

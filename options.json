@@ -4,6 +4,7 @@
     "DateTime_Format": "%d/%m/%Y %H:%M:%S",
     "Default_Duration": 10,
     "graceful_exit_text": "Exited at {datetime}",
+    "Scroll_Amplitude": 6,
 
     "Show_Welcome_Screen": true,
     "Welcome_Screen_Limit": 5,
@@ -34,6 +35,5 @@
     "Static_Screen_Limit": null,
     "Static_Screen_Duration": 5,
     "Static_Screen_Text": "Hassio verion {hassio.os.version} on {hostname} with IP {ip}",
-    "static_Screen_Text_NoScroll": false,
-    "Static_Screen_Text_Animated_Wave": 8
+    "static_Screen_Text_NoScroll": false
 }

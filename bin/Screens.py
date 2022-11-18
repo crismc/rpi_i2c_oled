@@ -93,7 +93,7 @@ class BaseScreen:
     def render_scroller(self, text, font, amplitude = 0, startpos = None):
         if not startpos:
             startpos = self.display.width
-        scroller = Scroller(text, startpos, amplitude, font, self.display)
+        scroller = Scroller(text, startpos, font, self.display, amplitude)
         timer = time.time() + self.duration
         while self.config.allow_screen_render(self.name):
             self.display.prepare()
@@ -143,16 +143,16 @@ class StaticScreen(BaseScreen):
         self._noscroll = bool(state)
         self.logger.info("Static screens text animated has been set to '" + str(self._noscroll) + "'")
 
-    @property
-    def amplitude(self):
-        if not self._amplitude:
-            return 0
-        return self._amplitude
+    # @property
+    # def amplitude(self):
+    #     if not self._amplitude:
+    #         return 0
+    #     return self._amplitude
 
-    @amplitude.setter
-    def amplitude(self, amplitude):
-        self._amplitude = int(amplitude) * -1
-        self.logger.info("Static screen amplitude: '" + str(self._amplitude) + "' set")
+    # @amplitude.setter
+    # def amplitude(self, amplitude):
+    #     self._amplitude = int(amplitude) * -1
+    #     self.logger.info("Static screen amplitude: '" + str(self._amplitude) + "' set")
 
     def capture_screenshot(self):
         slug = Utils.slugify(self.text)
@@ -162,11 +162,11 @@ class StaticScreen(BaseScreen):
         self.display.prepare()
         font = self.font(16)
         text = self.text
-        amplitude = self.amplitude
+        # amplitude = self.amplitude
 
-        self.logger.info("Rendering static text: " + text + " with an amplitude of " + str(amplitude))
+        self.logger.info("Rendering static text: " + text)
         if not self.noscroll and Utils.requires_scroller(self.display, text, font):
-            self.render_scroller(text, font, amplitude)
+            self.render_scroller(text, font)
         else:
             if not Utils.does_text_width_fit(self.display, text, font):
                 self.logger.info("Static text too wide for screen")
@@ -224,7 +224,7 @@ class WelcomeScreen(BaseScreen):
         '''
         height = self.display.height
         font = self.font(16)
-        self.render_scroller(self.text, font, height/6)
+        self.render_scroller(self.text, font)
 
 class SplashScreen(BaseScreen):
     img = Image.open(r"" + Utils.current_dir + "/img/home-assistant-logo.png")

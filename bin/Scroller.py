@@ -2,14 +2,16 @@ import math
 import logging
 from bin.Utils import Utils
 class Scroller:
-    def __init__(self, text, startpos, amplitude, font, display, velocity = -2):
+    default_amplitude = 0
+
+    def __init__(self, text, startpos, font, display, amplitude = None, velocity = -2):
         self.text = text
         self.display = display
-        self.amplitude = amplitude
         self.velocity = velocity
         self.startpos = startpos
         self.pos = startpos
         self.font = font
+        self.amplitude = amplitude if amplitude else Scroller.default_amplitude
         self.logger = logging.getLogger('Scroller')
         unused, self.height_offset = Utils.get_text_center(display, text, font) # height/4
         self.maxwidth, unused = Utils.get_text_size(display, text, font)
