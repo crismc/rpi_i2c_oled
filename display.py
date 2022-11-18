@@ -55,15 +55,10 @@ def start(config, logger):
 def set_logging_level(level):
     logging.basicConfig()
     main = logging.getLogger(__name__)
-    screen = logging.getLogger('Screen')
-    config = logging.getLogger('Config')
-    display = logging.getLogger('Display')
-
-    if level:
-        main.setLevel(level)
-        screen.setLevel(level)
-        config.setLevel(level)
-        display.setLevel(level)
+    if level: main.setLevel(level)
+    for name in ['Screen', 'Config', 'Display', 'Utils']:
+        log = logging.getLogger(name)
+        if level: log.setLevel(level)
 
     return main;
 
