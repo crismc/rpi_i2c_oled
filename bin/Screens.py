@@ -29,14 +29,14 @@ class Display:
         self.display.display()
 
     def prepare(self):
-        self.draw.rectangle((0, 0, self.width, self.width), outline = 0, fill = 0)
+        self.draw.rectangle((0, 0, self.width, self.height), outline = 0, fill = 0)
 
     def show(self):
-        self.display.image(self.image)
         if isinstance(self.rotate, int):
-            self.logger.info("Rotating image '" + str(self.rotate) + "' degrees")
-            self.image.rotate(self.rotate)
+            self.image = self.image.rotate(self.rotate)
+            self.draw = ImageDraw.Draw(self.image)
 
+        self.display.image(self.image)
         self.display.display()
 
     def capture_screenshot(self, name):
