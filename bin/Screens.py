@@ -33,8 +33,8 @@ class Display:
 
     def show(self):
         self.display.image(self.image)
-        if self.rotate:
-            self.logger.info("Rotating image '" + self.rotate + "' degrees")
+        if isinstance(self.rotate, int):
+            self.logger.info("Rotating image '" + str(self.rotate) + "' degrees")
             self.image.rotate(self.rotate)
 
         self.display.display()
