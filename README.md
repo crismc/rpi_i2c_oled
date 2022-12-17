@@ -185,6 +185,7 @@ python3 display.py --config /path/to/options.json
 | ---------------------| ------- | ------------ | -------------------------------------------------------| ------------------- |
 | i2c_bus     | int  | **Required** | I2C bus number. /dev/i2c-[bus number]                  | `1`                 |
 | Temperature_Unit     | string  | **Required** | Display the CPU temperature in C or F                  | `C`                 |
+| Rotate     | int  | **Optional** | Rotates the screen by the number of degrees provided counter clockwise around its centre (e.g. 180 displays the screen upside down).     | 0                 |
 | Default_Duration     | int     | **Required** | How long in seconds to display each screen by default. Ignored if specified on specific screen  | `10`                |
 | DateTime_Format      | string  | **Optional** | Format of the ```{datetime}``` static text variable  | `%d/%m/%Y %H:%M:%S` |
 | Graceful_Exit_Text   | string  | **Optional** | Text to display when the service is exited. Accepts same variables as the custom screen.  | `Exited at {datetime}` |

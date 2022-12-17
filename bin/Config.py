@@ -32,7 +32,8 @@ class Config:
         'static_screen_text_noscroll': 'static_screen_text_noscroll',
         'scroll_amplitude': 'scroll_amplitude',
         'datetime_format': 'datetime_format',
-        'welcome_screen_text': 'welcome_screen_text'
+        'welcome_screen_text': 'welcome_screen_text',
+        'rotate': 'rotate'
     }
 
     logger = logging.getLogger('Config')
@@ -108,7 +109,9 @@ class Config:
             if not screenshot:
                 screenshot = False
 
-            self.display = Display(busnum, screenshot)
+            rotate = self.get_option_value('rotate')
+            self.display = Display(busnum, screenshot, rotate)
+
         except Exception as e:
             raise Exception("Could not create display. Check your i2c bus with 'ls /dev/i2c-*'.")
 
