@@ -9,7 +9,7 @@ class Display:
     DEFAULT_BUSNUM = 1
     SCREENSHOT_PATH = "./img/examples/"
 
-    def __init__(self, busnum = None, screenshot = False):
+    def __init__(self, busnum = None, screenshot = False, rotate = False):
         if not isinstance(busnum, int):
             busnum = Display.DEFAULT_BUSNUM
 
@@ -17,6 +17,7 @@ class Display:
         self.clear()
         self.width = self.display.width
         self.height = self.display.height
+        self.rotate = rotate
         self.image = Image.new("1", (self.width, self.height))
         self.draw = ImageDraw.Draw(self.image)
         self.screenshot = screenshot
@@ -32,6 +33,10 @@ class Display:
 
     def show(self):
         self.display.image(self.image)
+        if self.rotate:
+            self.logger.info("Rotating image '" + self.rotate + "' degrees")
+            self.image.rotate(self.rotate)
+
         self.display.display()
 
     def capture_screenshot(self, name):
