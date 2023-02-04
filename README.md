@@ -98,7 +98,7 @@ One-Step Automated Install
 ----------------
 Those who want to get started quickly and conveniently may install the RPI_I2C_OLED using the following command:
 ```
-curl -sSL https://raw.githubusercontent.com/crismc/rpi_i2c_oled/v1.0.2/basic-install.sh | sudo bash
+curl -sSL https://raw.githubusercontent.com/crismc/rpi_i2c_oled/v1.0.4/basic-install.sh | sudo bash
 ```
 
 This will download the latest release, and install it as a service. Once run, you can control the ```oled``` service by the following:
