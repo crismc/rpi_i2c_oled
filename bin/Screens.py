@@ -359,7 +359,7 @@ class CpuScreen(BaseScreen):
         return temp
 
     def render(self):
-        cpu = Utils.shell_cmd("top -bn1 | grep load | awk '{printf \"%.2f\", $(NF-2)}'")
+        cpu = Utils.shell_cmd("top -bn1 | grep Load | awk '{printf \"%.2f\", $(NF-2)}'")
         uptime = Utils.shell_cmd("uptime | grep -ohe 'up .*' | sed 's/,//g' | awk '{ print $2" "$3 }'")
 
         # Check temapture unit and convert if required.
