@@ -26,7 +26,7 @@ class Scroller:
 
             # Calculate width but skip drawing if off the left side of screen.
             if x < -10:
-                char_width, char_height = self.display.draw.textsize(c, font=self.font)
+                char_width, char_height = Utils.get_text_size(self.display, c, font=self.font)
                 x += char_width
                 continue
 
@@ -37,7 +37,7 @@ class Scroller:
             self.display.draw.text((x, y), c, font=self.font, fill=255)
 
             # Increment x position based on chacacter width.
-            char_width, char_height = self.display.draw.textsize(c, font=self.font)
+            char_width, char_height = Utils.get_text_size(self.display, c, font=self.font)
             x += char_width
 
     def move_for_next_frame(self, allow_startover):
