@@ -143,6 +143,47 @@ class SSD1306Base(object):
     def clear(self):
         """Clear contents of image buffer."""
         self._buffer = [0]*(self.width*self._pages)
+        
+class SSD1306_128_64(SSD1306Base):
+    def __init__(self,  busnum=1, i2c_address=SSD1306_I2C_ADDRESS):
+        # Call base class constructor.
+        super(SSD1306_128_64, self).__init__(128, 64, i2c_address, busnum)
+
+    def _initialize(self):
+        # 128x64 pixel specific initialization.
+        self.command(SSD1306_DISPLAYOFF)                    # 0xAE
+        self.command(SSD1306_SETDISPLAYCLOCKDIV)            # 0xD5
+        self.command(0x80)                                  # the suggested ratio 0x80
+        self.command(SSD1306_SETMULTIPLEX)                  # 0xA8
+        self.command(0x3F)
+        self.command(SSD1306_SETDISPLAYOFFSET)              # 0xD3
+        self.command(0x0)                                   # no offset
+        self.command(SSD1306_SETSTARTLINE | 0x0)            # line #0
+        self.command(SSD1306_CHARGEPUMP)                    # 0x8D
+        if self._vccstate == SSD1306_EXTERNALVCC:
+            self.command(0x10)
+        else:
+            self.command(0x14)
+        self.command(SSD1306_MEMORYMODE)                    # 0x20
+        self.command(0x00)                                  # 0x0 act like ks0108
+        self.command(SSD1306_SEGREMAP | 0x1)
+        self.command(SSD1306_COMSCANDEC)
+        self.command(SSD1306_SETCOMPINS)                    # 0xDA
+        self.command(0x12)
+        self.command(SSD1306_SETCONTRAST)                   # 0x81
+        if self._vccstate == SSD1306_EXTERNALVCC:
+            self.command(0x9F)
+        else:
+            self.command(0xCF)
+        self.command(SSD1306_SETPRECHARGE)                  # 0xd9
+        if self._vccstate == SSD1306_EXTERNALVCC:
+            self.command(0x22)
+        else:
+            self.command(0xF1)
+        self.command(SSD1306_SETVCOMDETECT)                 # 0xDB
+        self.command(0x40)
+        self.command(SSD1306_DISPLAYALLON_RESUME)           # 0xA4
+        self.command(SSD1306_NORMALDISPLAY)                 # 0xA6
 
 class SSD1306_128_32(SSD1306Base):
     def __init__(self, busnum=1, i2c_address=SSD1306_I2C_ADDRESS):

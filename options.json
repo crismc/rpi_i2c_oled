@@ -1,40 +1,46 @@
 {
-    "I2C_bus": 1,
-    "Temperature_Unit": "C",
-    "rotate": 0,
-    "DateTime_Format": "%d/%m/%Y %H:%M:%S",
-    "Default_Duration": 10,
-    "graceful_exit_text": "Exited at {datetime}",
-    "Scroll_Amplitude": 6,
+  "I2C_bus": 1,
+  "Temperature_Unit": "C",
+  "rotate": 0,
+  "DateTime_Format": "%d/%m/%Y %H:%M:%S",
+  "Default_Duration": 10,
+  "graceful_exit_text": "Exited at {datetime}",
+  "Scroll_Amplitude": 6,
 
-    "Show_Welcome_Screen": true,
-    "Welcome_Screen_Limit": 5,
-    "Welcome_Screen_Duration": null,
-    "Welcome_Screen_Text": "Welcome to {hostname}",
-    
-    "Show_Splash_Screen": false,
-    "Splash_Screen_Limit": null,
-    "Splash_Screen_Duration": null,
-    
-    "Show_Memory_Screen": true,
-    "Memory_Screen_Limit": null,
-    "Memory_Screen_Duration": 10,
+  "Show_Welcome_Screen": true,
+  "Welcome_Screen_Limit": 5,
+  "Welcome_Screen_Duration": null,
+  "Welcome_Screen_Text": "Welcome to {hostname}",
 
-    "Show_Storage_Screen": true,
-    "Storage_Screen_Limit": null,
-    "Storage_Screen_Duration": 5,
-    
-    "Show_Network_Screen": true,
-    "Network_Screen_Limit": null,
-    "Network_Screen_Duration": 5,
-    
-    "Show_CPU_Screen": true,
-    "CPU_Screen_Limit": null,
-    "CPU_Screen_Duration": 5,
+  "Show_Splash_Screen": false,
+  "Splash_Screen_Limit": null,
+  "Splash_Screen_Duration": null,
 
-    "Show_Static_Screen": false,
-    "Static_Screen_Limit": null,
-    "Static_Screen_Duration": 5,
-    "Static_Screen_Text": "Hassio verion {hassio.os.version} on {hostname} with IP {ip}",
-    "static_Screen_Text_NoScroll": false
+  "Show_Memory_Screen": true,
+  "Memory_Screen_Limit": null,
+  "Memory_Screen_Duration": 10,
+
+  "Show_Storage_Screen": true,
+  "Storage_Screen_Limit": null,
+  "Storage_Screen_Duration": 5,
+
+  "Show_Network_Screen": true,
+  "Network_Screen_Limit": null,
+  "Network_Screen_Duration": 5,
+
+  "Show_CPU_Screen": true,
+  "CPU_Screen_Limit": null,
+  "CPU_Screen_Duration": 5,
+
+  "Show_Static_Screen": false,
+  "Static_Screen_Limit": null,
+  "Static_Screen_Duration": 5,
+  "Static_Screen_Text": "Hassio verion {hassio.os.version} on {hostname} with IP {ip}",
+  "static_Screen_Text_NoScroll": false,
+
+  "Show_Stats_Screen": true,
+  "Stats_Screen_Limit": null,
+  "Stats_Screen_Duration": 5,
+
+  "Supervisor_token": null 
 }

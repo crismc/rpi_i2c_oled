@@ -14,7 +14,8 @@ class Config:
         'storage',
         'memory',
         'cpu',
-        'static'
+        'static',
+        'stats'
     ]
     HASSIO_DEPENDENT_SCREENS = [
         'Splash'
@@ -33,7 +34,9 @@ class Config:
         'scroll_amplitude': 'scroll_amplitude',
         'datetime_format': 'datetime_format',
         'welcome_screen_text': 'welcome_screen_text',
-        'rotate': 'rotate'
+        'rotate': 'rotate',
+        'supervizor_token': 'supervizor_token'
+        'screen_size': 'screen_size'
     }
 
     logger = logging.getLogger('Config')
@@ -110,14 +113,14 @@ class Config:
                 screenshot = False
 
             rotate = self.get_option_value('rotate')
-            self.display = Display(busnum, screenshot, rotate)
+            self.display = Display(busnum, screenshot, rotate, self.config)
 
         except Exception as e:
             raise Exception("Could not create display. Check your i2c bus with 'ls /dev/i2c-*'.")
 
     def _init_utils(self):
         if self.is_hassio_supported:
-            self.utils = HassioUtils
+            self.utils = HassioUtils()
         else:
             self.utils = Utils
 
@@ -203,7 +206,7 @@ class Config:
         name = str(name).lower()
 
         if not hasattr(self, 'display'):
-            self._init_display()
+            self._init_display(self.get_option_value('screen_size'))
 
         if not hasattr(self, 'utils'):
             self._init_utils()

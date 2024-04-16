@@ -2,18 +2,22 @@ from PIL import Image, ImageDraw, ImageFont, ImageOps
 import time
 import logging
 import textwrap
-from bin.SSD1306 import SSD1306_128_32 as SSD1306
+from bin.SSD1306 import SSD1306_128_64, SSD1306_128_32
 from bin.Scroller import Scroller
-from bin.Utils import Utils
+from bin.Utils import Utils, HassioUtils
+
+
 class Display:
     DEFAULT_BUSNUM = 1
     SCREENSHOT_PATH = "./img/examples/"
 
-    def __init__(self, busnum = None, screenshot = False, rotate = False):
+    def __init__(self, busnum = None, screenshot = False, rotate = False, config):
         if not isinstance(busnum, int):
             busnum = Display.DEFAULT_BUSNUM
-
-        self.display = SSD1306(busnum)
+        if config.get_option_value('screen_size') == '32':
+			self.display = SSD1306_128_32(busnum)
+		else:
+            self.display = SSD1306_128_64(busnum)
         self.clear()
         self.width = self.display.width
         self.height = self.display.height
@@ -51,7 +55,7 @@ class Display:
             self.image.save(path)
 
 class BaseScreen:
-    font_path = Utils.current_dir + "/fonts/DejaVuSans.ttf"
+    font_path = Utils.current_dir + "/fonts/PixelOperator.ttf"
     font_bold_path = Utils.current_dir + "/fonts/DejaVuSans-Bold.ttf"
     fonts = {}
 
@@ -242,14 +246,14 @@ class SplashScreen(BaseScreen):
             Home Assistant screen. 
             If you're not using Home Assistant OS, disable this screen in the config
         '''
-        os_info = self.utils.hassos_get_info('os/info')
+        os_info = self.utils.hassos_get_info(self, 'os/info')
         os_version = os_info['data']['version']
         os_upgrade = os_info['data']['update_available']  
 
         if (os_upgrade == True):
             os_version = os_version + "*"
 
-        core_info = self.utils.hassos_get_info('core/info')
+        core_info = self.utils.hassos_get_info(self, 'core/info')
         core_version = core_info['data']['version']  
         core_upgrade = os_info['data']['update_available']
         if (core_upgrade == True):
@@ -375,5 +379,41 @@ class CpuScreen(BaseScreen):
 
         self.capture_screenshot()
         
+        self.display.show()
+        time.sleep(self.duration)
+
+class StatsScreen(BaseScreen):
+    def set_temp_unit(self, unit):
+        unit = str(unit).upper()
+        if unit in ['C', 'F']:
+            self.temp_unit = unit
+
+    def get_temp(self):
+        temp =  float(Utils.shell_cmd("cat /sys/class/thermal/thermal_zone0/temp")) / 1000.00
+
+        if (hasattr(self, 'temp_unit') and self.temp_unit == 'F'):
+            temp = "%0.2f °F " % (temp * 9.0 / 5.0 + 32)
+        else:
+            temp = "%0.2f °C " % (temp)
+
+        return temp
+
+    def render(self):
+        self.display.prepare()
+                
+        ipv4 = self.utils.get_ip()
+        core_stats = HassioUtils().hassos_get_info('core/stats', self.config)	
+        cpu = core_stats["data"]['cpu_percent']
+        temp = self.get_temp()
+        mem = Utils.shell_cmd("free -m | awk 'NR==2{printf \"Mem: %s/%sMB %.2f%%\", $3,$2,$3*100/$2 }'")
+        storage =  Utils.shell_cmd("df -h | awk '$NF==\"/\"{printf \"Disk: %d/%dGB %s\", $3,$2,$5}'")
+        
+        self.display.draw.text((0, 0), "IP: " + ipv4, font=self.font(16), fill=255)
+        self.display.draw.text((0, 16), "CPU: " + str(cpu) + "LA", font=self.font(16), fill=255)
+        self.display.draw.text((80, 16), temp, font=self.font(16), fill=255)
+        self.display.draw.text((0, 32), mem, font=self.font(16), fill=255)
+        self.display.draw.text((0, 48), storage, font=self.font(16), fill=255)
+
+        self.capture_screenshot()
         self.display.show()
         time.sleep(self.duration)
