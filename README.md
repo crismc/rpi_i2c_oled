@@ -1,7 +1,7 @@
 IC2 OLED controller for Raspberry PI
 =======================
 
-Python library to enable 128x32 pixel OLED for Raspberry Pi (both 32 and 64bit).
+Enables 128x32 or 64 pixel OLED for Raspberry Pi (both 32 and 64bit).
 
 This repository has been broken out to work as a standalone service and will work on a standard Raspberry Pi running Raspian.
 
@@ -13,9 +13,11 @@ This repository has been broken out to work as a standalone service and will wor
 <br>
 
 ## Some Teaser Screenshots.
-| Welcome | HA Splash | CPU Stats | RAM Stats | Storage Stats | Network Stats | Exit Screen | 
-|-----------|-----------|-----------|-----------|---------------|---------------|---------------|
-| ![Welcome][welcome-url] | ![Splash][splash-url] | ![CPU Stats][cpu-stats-url] | ![RAM Stats][ram-stats-url] | ![Storage Stats][storage-stats-url] | ![Network Stats][network-stats-url] | ![Exit][exit-url] |
+| Welcome | HA Splash | CPU Stats | RAM Stats | Storage Stats | Network Stats | Exit Screen | Stats Screen* |
+|-----------|-----------|-----------|-----------|---------------|---------------|---------------|---------------|
+| ![Welcome][welcome-url] | ![Splash][splash-url] | ![CPU Stats][cpu-stats-url] | ![RAM Stats][ram-stats-url] | ![Storage Stats][storage-stats-url] | ![Network Stats][network-stats-url] | ![Exit][exit-url] | ![Stats][stats-url] |
+
+*Stats screen designed for 128x64 displays only
 
 ## Custom Screen & Static Text Variables
 Aswell as the above screens, you can configure a static custom screen which can be fixed or animated.
@@ -37,8 +39,9 @@ The following variables are supported
 | {datetime}             | Displays the current datetime based on the defined format specified in the ```DateTime_Format``` config option. |
 | {hostname}             | Displays the current hostname of the host device |
 | {ip}                   | Displays the host device IP |
-| {hassio.info.property} | Fetches a specified property from Home Assistants supervisor API (e.g. http://supervisor/os/info). You can state the namespace and property which will populate with the responding value. This must be fixed with hassio first, followed by the namespace (e.g. os, network etc), then the property e.g. hassio.os.latest_version will call http://supervisor/os/info and display the ```latest_version``` value. |
+| {hassio.info.property}* | Fetches a specified property from Home Assistants supervisor API (e.g. http://supervisor/os/info). You can state the namespace and property which will populate with the responding value. This must be fixed with hassio first, followed by the namespace (e.g. os, network etc), then the property e.g. hassio.os.latest_version will call http://supervisor/os/info and display the ```latest_version``` value. |
 
+*Some properties may not be available without setting up the API access in Home Assistant and inputting the supervisor token into configuration. This is not required for the basic screens.
 <br>
 <br>
 
@@ -75,9 +78,11 @@ Home Assistant variant of this build can be accessed from [HomeAssistant_Addons]
 
 Hardware Setup
 ===============
-You can use 0.91 Inch 128X32 I2C module, as long as it is registered on /dev/i2c-1 which is the Rasperry Pi default.
+You can use 0.91 Inch 128X32 or 64 I2C module, as long as it is registered on /dev/i2c-1 which is the Rasperry Pi default.
 
-I purchased this [MakerHawk I2C OLED Display Module I2C Screen Module 0.91" 128X32 I2C](https://www.amazon.co.uk/gp/product/B07BDFXFRK/ref=ppx_yo_dt_b_asin_title_o07_s00?ie=UTF8&psc=1)
+Testing Hardware
+[MakerHawk I2C OLED Display Module I2C Screen Module 0.91" 128X32 I2C](https://amzn.eu/d/cCNIybv)
+[128x64 Pixels IIC 3.3V 5V White Character Screen Module](https://a.co/d/cTte8OO)
 
 Pin setup:
 --------------
@@ -183,6 +188,7 @@ python3 display.py --config /path/to/options.json
 
 | Name                 | Type    | Requirement  | Description                                            | Default             |
 | ---------------------| ------- | ------------ | -------------------------------------------------------| ------------------- |
+| Screen_Size     | string  | **Required** | The size of the screen you want to display. Currently only 128x32 and 128x64 are supported| `32`                 |
 | i2c_bus     | int  | **Required** | I2C bus number. /dev/i2c-[bus number]                  | `1`                 |
 | Temperature_Unit     | string  | **Required** | Display the CPU temperature in C or F                  | `C`                 |
 | Rotate     | int  | **Optional** | Rotates the screen by the number of degrees provided counter clockwise around its centre (e.g. 180 displays the screen upside down).     | 0                 |
@@ -286,3 +292,4 @@ MIT license, all text above must be included in any redistribution
 [network-stats-url]: /img/examples/network.png?raw=true
 [splash-url]: /img/examples/splash.png?raw=true
 [exit-url]: /img/examples/static_goodbye.png?raw=true
+[stats-url]: /img/examples/stats.png?raw=true
