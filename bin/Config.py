@@ -206,7 +206,7 @@ class Config:
         name = str(name).lower()
 
         if not hasattr(self, 'display'):
-            self._init_display(self.get_option_value('screen_size'))
+            self._init_display()
 
         if not hasattr(self, 'utils'):
             self._init_utils()
