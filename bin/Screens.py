@@ -14,7 +14,7 @@ class Display:
     def __init__(self, busnum = None, screenshot = False, rotate = False, config = None):
         if not isinstance(busnum, int):
             busnum = Display.DEFAULT_BUSNUM
-        if config && config.get_option_value('screen_size') == '64':
+        if config and config.get_option_value('screen_size') == '64':
             self.display = SSD1306_128_64(busnum)
         else:
             self.display = SSD1306_128_32(busnum)
