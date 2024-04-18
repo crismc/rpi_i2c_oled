@@ -11,13 +11,13 @@ class Display:
     DEFAULT_BUSNUM = 1
     SCREENSHOT_PATH = "./img/examples/"
 
-    def __init__(self, config, busnum = None, screenshot = False, rotate = False):
+    def __init__(self, busnum = None, screenshot = False, rotate = False, config = None):
         if not isinstance(busnum, int):
             busnum = Display.DEFAULT_BUSNUM
-        if config.get_option_value('screen_size') == '32':
-            self.display = SSD1306_128_32(busnum)
-        else:
+        if config && config.get_option_value('screen_size') == '64':
             self.display = SSD1306_128_64(busnum)
+        else:
+            self.display = SSD1306_128_32(busnum)
         self.clear()
         self.width = self.display.width
         self.height = self.display.height
