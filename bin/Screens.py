@@ -15,8 +15,8 @@ class Display:
         if not isinstance(busnum, int):
             busnum = Display.DEFAULT_BUSNUM
         if config.get_option_value('screen_size') == '32':
-			self.display = SSD1306_128_32(busnum)
-		else:
+            self.display = SSD1306_128_32(busnum)
+        else:
             self.display = SSD1306_128_64(busnum)
         self.clear()
         self.width = self.display.width
