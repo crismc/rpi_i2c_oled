@@ -81,7 +81,9 @@ Hardware Setup
 You can use 0.91 Inch 128X32 or 64 I2C module, as long as it is registered on /dev/i2c-1 which is the Rasperry Pi default.
 
 Testing Hardware
+<br>
 [MakerHawk I2C OLED Display Module I2C Screen Module 0.91" 128X32 I2C](https://amzn.eu/d/cCNIybv)
+<br>
 [128x64 Pixels IIC 3.3V 5V White Character Screen Module](https://a.co/d/cTte8OO)
 
 Pin setup:
