@@ -35,7 +35,7 @@ class Config:
         'datetime_format': 'datetime_format',
         'welcome_screen_text': 'welcome_screen_text',
         'rotate': 'rotate',
-        'supervizor_token': 'supervizor_token'
+        'supervizor_token': 'supervizor_token',
         'screen_size': 'screen_size'
     }
 
