@@ -11,7 +11,7 @@ class Display:
     DEFAULT_BUSNUM = 1
     SCREENSHOT_PATH = "./img/examples/"
 
-    def __init__(self, busnum = None, screenshot = False, rotate = False, config):
+    def __init__(self, config, busnum = None, screenshot = False, rotate = False):
         if not isinstance(busnum, int):
             busnum = Display.DEFAULT_BUSNUM
         if config.get_option_value('screen_size') == '32':

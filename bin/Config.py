@@ -113,7 +113,7 @@ class Config:
                 screenshot = False
 
             rotate = self.get_option_value('rotate')
-            self.display = Display(busnum, screenshot, rotate, self.config)
+            self.display = Display(self.config, busnum, screenshot, rotate)
 
         except Exception as e:
             raise Exception("Could not create display. Check your i2c bus with 'ls /dev/i2c-*'.")
