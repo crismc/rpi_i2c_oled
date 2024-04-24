@@ -68,12 +68,17 @@ class Utils:
         
 class HassioUtils(Utils):
     @staticmethod
-    def hassos_get_info(type):
+    def hassos_get_info(type, config = None):
         url = 'http://supervisor/{}'.format(type)
         Utils.logger.info("Requesting data from '" + url + "'")
-        cmd = 'curl -sSL -H "Authorization: Bearer $SUPERVISOR_TOKEN" -H "Content-Type: application/json" ' + url
+        token = '$SUPERVISOR_TOKEN'
+        if config is not None:
+            if config.has_option('supervizor_token'):
+                token = config.get_option_value('supervizor_token')
+        cmd = 'curl -sSL -H "Authorization: Bearer ' + token +'" -H "content-type: application/json" ' + url
         info = Utils.shell_cmd(cmd)
         return json.loads(info)
+
 
     @staticmethod
     def get_hostname(opt = ""):
