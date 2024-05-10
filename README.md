@@ -16,7 +16,7 @@ This repository has been broken out to work as a standalone service and will wor
 | Welcome | HA Splash | CPU Stats | RAM Stats | Storage Stats | Network Stats | Exit Screen |
 |-----------|-----------|-----------|-----------|---------------|---------------|---------------|
 | ![Welcome][welcome-url] | ![Splash][splash-url] | ![CPU Stats][cpu-stats-url] | ![RAM Stats][ram-stats-url] | ![Storage Stats][storage-stats-url] | ![Network Stats][network-stats-url] | ![Exit][exit-url] |
-| ![Welcome][welcome-url-compact] | ![Splash][splash-url-compact] | ![CPU Stats][cpu-stats-url-compact] | ![RAM Stats][ram-stats-url-compact] | ![Storage Stats][storage-stats-url-compact] | ![Network Stats][network-stats-url-compact] | ![Exit][exit-url-compact] |
+|  | | ![CPU Stats][cpu-stats-url-compact] | ![RAM Stats][ram-stats-url-compact] | ![Storage Stats][storage-stats-url-compact] | ![Network Stats][network-stats-url-compact] | |
 
 ## Custom Screen & Static Text Variables
 Aswell as the above screens, you can configure a static custom screen which can be fixed or animated.
