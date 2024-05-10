@@ -73,7 +73,7 @@ class BaseScreen:
             name = self.name
         self.display.capture_screenshot(name)
 
-    def font(self, size, is_bold = False):
+    def font(self, size = 8, is_bold = False):
         suffix = None
         if is_bold:
             suffix = '_bold'
@@ -166,7 +166,7 @@ class StaticScreen(BaseScreen):
 
     def render(self):
         self.display.prepare()
-        font = self.font(16)
+        font = self.font(size=16)
         text = self.text
         # amplitude = self.amplitude
 
@@ -229,7 +229,7 @@ class WelcomeScreen(BaseScreen):
         Scrolls 'Welcome [hostname]' across the screen
         '''
         height = self.display.height
-        font = self.font(16)
+        font = self.font(size=16)
         self.render_scroller(self.text, font)
 
 class SplashScreen(BaseScreen):
@@ -269,12 +269,12 @@ class SplashScreen(BaseScreen):
         self.display.draw.line([(textbox_x, 16),(123,16)], fill=255, width=1)
 
         ln1 = self.utils.get_hostname()
-        ln1_font = self.font(9, True)
+        ln1_font = self.font(size=9, True)
         self.display.draw.text((textbox_x, 2), ln1, font=ln1_font, fill=255)
 
         # Write Test, Eventually will get from HA API.
         ln2 = 'OS '+ os_version + ' - ' + core_version
-        ln2_font = self.font(8)
+        ln2_font = self.font()
         self.display.draw.text((textbox_x, 20), ln2, font=ln2_font, fill=255)
 
         # Display Image to OLED
@@ -294,8 +294,8 @@ class NetworkScreen(BaseScreen):
         icon = self.img.resize([13,13])
         self.display.image.paste(icon,(-2,0))
 
-        self.display.draw.text((18, 0), hostname, font=self.font(12), fill=255)
-        self.display.draw.text((0, 18), "IP4 " + ipv4, font=self.font(12), fill=255)    
+        self.display.draw.text((18, 0), hostname, font=self.font(size=12), fill=255)
+        self.display.draw.text((0, 18), "IP4 " + ipv4, font=self.font(size=12), fill=255)    
         #draw.text((29, 21), "MAC " + mac.upper(), font=small, fill=255)    
 
         self.capture_screenshot()
@@ -314,9 +314,9 @@ class StorageScreen(BaseScreen):
         icon = self.img.resize([26,26])  
         self.display.image.paste(icon,(-2,3))
 
-        self.display.draw.text((29, 0), "USED: " + storage[0] + ' GB \n', font=self.font(8), fill=255)
-        self.display.draw.text((29, 11), "TOTAL: " + storage[1] + ' GB \n', font=self.font(8), fill=255)
-        self.display.draw.text((29, 21), "UTILISED: " + storage[2] + ' \n', font=self.font(8), fill=255) 
+        self.display.draw.text((29, 0), "USED: " + storage[0] + ' GB \n', font=self.font(), fill=255)
+        self.display.draw.text((29, 11), "TOTAL: " + storage[1] + ' GB \n', font=self.font(), fill=255)
+        self.display.draw.text((29, 21), "UTILISED: " + storage[2] + ' \n', font=self.font(), fill=255) 
 
         self.capture_screenshot()
         self.display.show()
@@ -333,9 +333,9 @@ class MemoryScreen(BaseScreen):
         icon = self.img.resize([26,26])  
         self.display.image.paste(icon,(-2,3))
 
-        self.display.draw.text((29, 0), "USED: " + mem[0] + ' GB \n', font=self.font(8), fill=255)
-        self.display.draw.text((29, 11), "TOTAL: " + mem[1] + ' GB \n', font=self.font(8), fill=255)
-        self.display.draw.text((29, 21), "UTILISED: " + mem[2] + ' \n', font=self.font(8), fill=255)  
+        self.display.draw.text((29, 0), "USED: " + mem[0] + ' GB \n', font=self.font(), fill=255)
+        self.display.draw.text((29, 11), "TOTAL: " + mem[1] + ' GB \n', font=self.font(), fill=255)
+        self.display.draw.text((29, 21), "UTILISED: " + mem[2] + ' \n', font=self.font(), fill=255)  
 
         self.capture_screenshot()
         self.display.show()
@@ -371,9 +371,9 @@ class CpuScreen(BaseScreen):
         icon = self.img.resize([26,26])  
         self.display.image.paste(icon,(-2,3))
 
-        self.display.draw.text((29, 0), 'TEMP: ' + temp, font=self.font(8), fill=255)
-        self.display.draw.text((29, 11), 'LOAD: '+ cpu + "% ", font=self.font(8), fill=255)  
-        self.display.draw.text((29, 21), uptime.upper(), font=self.font(8), fill=255)
+        self.display.draw.text((29, 0), 'TEMP: ' + temp, font=self.font(), fill=255)
+        self.display.draw.text((29, 11), 'LOAD: '+ cpu + "% ", font=self.font(), fill=255)  
+        self.display.draw.text((29, 21), uptime.upper(), font=self.font(), fill=255)
 
         self.capture_screenshot()
         
