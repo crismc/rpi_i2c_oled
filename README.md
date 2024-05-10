@@ -16,6 +16,7 @@ This repository has been broken out to work as a standalone service and will wor
 | Welcome | HA Splash | CPU | Memory | Storage | Network | Exit Screen |
 |-----------|-----------|-----------|-----------|---------------|---------------|---------------|
 | ![Welcome][welcome-url] | ![Splash][splash-url] | ![CPU Stats][cpu-stats-url] | ![RAM Stats][ram-stats-url] | ![Storage Stats][storage-stats-url] | ![Network Stats][network-stats-url] | ![Exit][exit-url] |
+|  | | ![CPU Stats][cpu-stats-url-icon] | ![RAM Stats][ram-stats-url-icon] | ![Storage Stats][storage-stats-url-icon] | ![Network Stats][network-stats-url-icon] | |
 |  | | ![CPU Stats][cpu-stats-url-compact] | ![RAM Stats][ram-stats-url-compact] | ![Storage Stats][storage-stats-url-compact] | ![Network Stats][network-stats-url-compact] | |
 
 ## Custom Screen & Static Text Variables
@@ -292,10 +293,12 @@ MIT license, all text above must be included in any redistribution
 [splash-url]: /img/examples/splash.png?raw=true
 [exit-url]: /img/examples/static_goodbye.png?raw=true
 
-[welcome-url-compact]: /img/examples/compact/welcome.png?raw=true
 [cpu-stats-url-compact]: /img/examples/compact/cpu.png?raw=true
 [ram-stats-url-compact]: /img/examples/compact/memory.png?raw=true
 [storage-stats-url-compact]: /img/examples/compact/storage.png?raw=true
 [network-stats-url-compact]: /img/examples/compact/network.png?raw=true
-[splash-url-compact]: /img/examples/compact/splash.png?raw=true
-[exit-url-compact]: /img/examples/compact/static_goodbye.png?raw=true
+
+[cpu-stats-url-icon]: /img/examples/icon/cpu.png?raw=true
+[ram-stats-url-icon]: /img/examples/icon/memory.png?raw=true
+[storage-stats-url-icon]: /img/examples/icon/storage.png?raw=true
+[network-stats-url-icon]: /img/examples/icon/network.png?raw=true
