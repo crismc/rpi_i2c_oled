@@ -88,13 +88,17 @@ class BaseScreen:
         if not self.icon or self.icon_path != path:
            self.icon_path = path
            img = Image.open(r"" + Utils.current_dir + self.icon_path)
-           self.icon = img.resize([26, 26])
+           # img = img.convert('RGBA') # MUST be in RGB mode for the OLED
+           # invert black icon to white (255) for OLED display
+           #self.icon = ImageOps.invert( self.icon )
+           self.icon = img.resize([30, 30])
+
 
     @property
     def text_indent(self):
         """ :return: how far to indent a line of text for this screen """
         if self.display.show_icons and self.icon:
-            return 28
+            return 29
         elif self.hint and not self.display.hint_right:
             return 16
         return 0
@@ -423,12 +427,12 @@ class StorageScreen(BaseScreen):
 
         indent = self.text_indent
         if self.display.compact:
-           self.display_text([ f"{used:.1f} / {total:.1f} GB",
+           self.display_text([ f"{round(used,1):.1f} / {round(total,0):.0f} GB",
                                f"{free_pct:.1f}% Free" ])
         else:
            self.display_text([
-             f"USED: {used:.1f} GB",
-             f"TOTAL: {total:.1f} GB",
+             f"USED: {round(used,1):.1f} GB",
+             f"TOTAL: {round(total,1):.1f} GB",
              f"UTILISED: {storage[2]}" ])
 
         self.render_with_defaults()
@@ -436,7 +440,7 @@ class StorageScreen(BaseScreen):
 class MemoryScreen(BaseScreen):
     def render(self):
         self.hint = 'MEM'
-        self.set_icon("/img/database.png")
+        self.set_icon("/img/memory.png")
 
         mem = Utils.shell_cmd("free -m | awk 'NR==2{printf \"%.1f,%.1f,%.0f%%\", $3/1000,$2/1000,$3*100/$2 }'")
         mem = mem.split(',')
@@ -447,7 +451,7 @@ class MemoryScreen(BaseScreen):
 
         indent = self.text_indent
         if self.display.compact:
-           self.display_text([ f"{mem[0]} / {mem[1]} GB",
+           self.display_text([ f"{round(used,1):.1f} / {round(total,1):.1f} GB",
                                f"{free_pct:.1f}% Free" ])
         else:
            self.display_text([
@@ -473,7 +477,7 @@ class CpuScreen(BaseScreen):
 
     def render(self):
         self.hint = 'CPU'
-        self.set_icon("/img/cpu-64-bit.png") 
+        self.set_icon("/img/cpu.png") 
 
         # switched from top -bn1 to uptime to reduce CPU consumption by 60%
         cpu = Utils.shell_cmd("uptime | grep -i load | awk '{printf \"%.2f,%.2f,%.2f\", $(NF-2),$(NF-1),$(NF)}'")
