@@ -22,6 +22,10 @@ if ! $(sudo -l &> /dev/null); then
     exit $E_NOTROOT
 fi
 
+echo "Installing dependencies"
+apt-get install i2c-tools git vim
+apt-get install python3-dev python3-smbus python3-pil
+
 echo "Getting latest version"
 VERSION=$(get_latest_release $REPO)
 
