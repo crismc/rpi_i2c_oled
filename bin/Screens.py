@@ -269,7 +269,7 @@ class SplashScreen(BaseScreen):
         self.display.draw.line([(textbox_x, 16),(123,16)], fill=255, width=1)
 
         ln1 = self.utils.get_hostname()
-        ln1_font = self.font(size=9, True)
+        ln1_font = self.font(size=9, is_bold=True)
         self.display.draw.text((textbox_x, 2), ln1, font=ln1_font, fill=255)
 
         # Write Test, Eventually will get from HA API.
