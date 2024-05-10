@@ -5,6 +5,7 @@ import textwrap
 from bin.SSD1306 import SSD1306_128_32 as SSD1306
 from bin.Scroller import Scroller
 from bin.Utils import Utils
+
 class Display:
     DEFAULT_BUSNUM = 1
     SCREENSHOT_PATH = "./img/examples/"
@@ -359,10 +360,11 @@ class CpuScreen(BaseScreen):
         return temp
 
     def render(self):
-        cpu = Utils.shell_cmd("top -bn1 | grep Load | awk '{printf \"%.2f\", $(NF-2)}'")
+        # switched from top -bn1 to uptime to reduce CPU consumption by 60%
+        cpu = Utils.shell_cmd("uptime | grep -i load | awk '{printf \"%.2f\", $(NF-2)}'")
         uptime = Utils.shell_cmd("uptime | grep -ohe 'up .*' | sed 's/,//g' | awk '{ print $2" "$3 }'")
 
-        # Check temapture unit and convert if required.
+        # Check tempature unit and convert if required.
         temp = self.get_temp()
 
         # Resize and merge icon to Canvas
