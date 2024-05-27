@@ -65,6 +65,23 @@ class Utils:
         maxlength = 15
         slug = re.sub(r'[^a-z0-9\_ ]+', '', text.lower().strip()).replace(" ", "_")[0:maxlength].strip('_')
         return slug
+    @staticmethod
+    def display_time(seconds, granularity=2):
+      INTERVALS = (
+          ('w', 604800),  # 60 * 60 * 24 * 7
+          ('d', 86400),    # 60 * 60 * 24
+          ('h', 3600),    # 60 * 60
+          ('m', 60),
+          ('s', 1),
+      )
+      result = []
+      for name, count in INTERVALS:
+          value = seconds // count
+          if value:
+              seconds -= value * count
+              result.append("{}{}".format(round(value), name))
+      return ''.join(result[:granularity])
+
         
 class HassioUtils(Utils):
     @staticmethod
@@ -130,3 +147,4 @@ class HassioUtils(Utils):
                 raise Exception("No data available")
         except Exception as e:
             Utils.logger.warning("Could not load hassio info url '"+ url +"': " + str(e))
+

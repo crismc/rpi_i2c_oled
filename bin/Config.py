@@ -14,7 +14,8 @@ class Config:
         'storage',
         'memory',
         'cpu',
-        'static'
+        'static',
+        'summary'
     ]
     HASSIO_DEPENDENT_SCREENS = [
         'Splash'
@@ -29,6 +30,7 @@ class Config:
         'screenshot': 'screenshot',
         'graceful_exit_text': 'graceful_exit_text',
         'static_screen_text': 'static_screen_text',
+        'summary_screen_text': 'summary_screen_text',
         'static_screen_text_noscroll': 'static_screen_text_noscroll',
         'scroll_amplitude': 'scroll_amplitude',
         'datetime_format': 'datetime_format',
@@ -215,6 +217,15 @@ class Config:
             if static_text:
                 screen.text = static_text
                 if self.get_option_value('static_screen_text_noscroll'):
+                    screen.noscroll = True
+            return screen
+        elif name == 'summary':
+            duration = self.get_screen_duration(name)
+            screen = SummaryScreen(duration, self.display, self.utils, self)
+            summary_text = self.get_option_value('summary_screen_text')
+            if summary_text:
+                screen.text = summary_text
+                if self.get_option_value('summary_screen_text_noscroll'):
                     screen.noscroll = True
             return screen
         elif name in self.enabled_screens:

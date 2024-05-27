@@ -46,6 +46,7 @@ def start(config, logger):
                 logger.info("'" + name + "' is being processed")
                 try:
                     screen = config.screen_factory(name)
+                    logger.info("Setuping up factory")
                     screen.run()
                     config.reduce_screen_limit(name)
                 except Exception as e:
@@ -53,7 +54,8 @@ def start(config, logger):
                     continue
 
 def set_logging_level(level):
-    logging.basicConfig()
+    logging.basicConfig(format='[%(asctime)s] p%(process)s {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s',
+                        datefmt='%m-%d %H:%M:%S')
     main = logging.getLogger(__name__)
     if level: main.setLevel(level)
     for name in ['Screen', 'Config', 'Display', 'Utils']:

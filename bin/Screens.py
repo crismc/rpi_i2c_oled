@@ -377,3 +377,65 @@ class CpuScreen(BaseScreen):
         
         self.display.show()
         time.sleep(self.duration)
+class SummaryScreen(BaseScreen):
+    @property
+    def text(self):
+        if not self._text:
+            self.text = self.default_message
+            self.logger.info("No summary text found")
+
+        if not self._text_compiled:
+            self._text_compiled = True
+            self._text = self.utils.compile_text(self._text)
+            self.logger.info("Summary screen text compiled: '" + self._text + "'")
+
+        return self._text
+
+    @text.setter
+    def text(self, text):
+        self._text = str(text)
+        self._text_compiled = False
+        self.logger.info("Summary screen text: '" + self._text + "' added")
+
+    @property
+    def noscroll(self):
+        if not hasattr(self, '_noscroll'):
+            return False
+        return self._noscroll
+
+    @noscroll.setter
+    def noscroll(self, state):
+        self._noscroll = bool(state)
+        self.logger.info("Summary screens text animated has been set to '" + str(self._noscroll) + "'")
+
+    def capture_screenshot(self):
+        slug = Utils.slugify(self.text)
+        super().capture_screenshot("summary_" + slug)
+
+    def render(self):
+        padding = -2
+        height = self.display.height
+        width = self.display.width
+        top = padding
+        bottom = height - padding
+        x=0
+        hostname = self.utils.get_hostname()
+        ipv4 = self.utils.get_ip()
+        uptime_in_seconds = self.utils.shell_cmd("cat /proc/uptime | cut -d' ' -f1")
+
+        self.display.prepare()
+        big_font = self.font(20)
+        small_font = self.font(10)
+        text = self.text
+
+        self.logger.info("Rendering summary text: " + text)
+        self.display.draw.text( (0, -2), hostname, font=big_font, fill=255)
+
+        self.display.draw.text((x, top + 24), ipv4, font=small_font, fill=255)
+        self.display.draw.text((width - 35 , top + 24), self.utils.display_time(float(uptime_in_seconds.strip()), 4), font=small_font, fill=255)
+
+
+        self.display.show()
+        self.capture_screenshot()
+        time.sleep(self.duration)
+
