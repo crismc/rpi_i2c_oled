@@ -6,7 +6,10 @@
     "Default_Duration": 10,
     "graceful_exit_text": "Exited at {datetime}",
     "Scroll_Amplitude": 6,
-
+    "Show_Icons": true,
+    "Show_Hint": false,
+    "Compact": true,
+ 
     "Show_Welcome_Screen": true,
     "Welcome_Screen_Limit": 5,
     "Welcome_Screen_Duration": null,

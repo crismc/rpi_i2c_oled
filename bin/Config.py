@@ -33,7 +33,10 @@ class Config:
         'scroll_amplitude': 'scroll_amplitude',
         'datetime_format': 'datetime_format',
         'welcome_screen_text': 'welcome_screen_text',
-        'rotate': 'rotate'
+        'rotate': 'rotate',
+        'show_icons': 'show_icons',
+        'show_hint': 'show_hint',
+        'compact': 'compact'
     }
 
     logger = logging.getLogger('Config')
@@ -110,7 +113,13 @@ class Config:
                 screenshot = False
 
             rotate = self.get_option_value('rotate')
-            self.display = Display(busnum, screenshot, rotate)
+            show_icons = self.get_option_value('show_icons')
+            show_hint = self.get_option_value('show_hint')
+            compact = self.get_option_value('compact')
+
+            self.display = Display(busnum=busnum, screenshot=screenshot,
+                                   rotate=rotate, show_icons=show_icons,
+                                   show_hint=show_hint, compact=compact)
 
         except Exception as e:
             raise Exception("Could not create display. Check your i2c bus with 'ls /dev/i2c-*'.")

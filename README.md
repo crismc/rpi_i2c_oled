@@ -13,9 +13,11 @@ This repository has been broken out to work as a standalone service and will wor
 <br>
 
 ## Some Teaser Screenshots.
-| Welcome | HA Splash | CPU Stats | RAM Stats | Storage Stats | Network Stats | Exit Screen | 
+| Welcome | HA Splash | CPU | Memory | Storage | Network | Exit Screen |
 |-----------|-----------|-----------|-----------|---------------|---------------|---------------|
 | ![Welcome][welcome-url] | ![Splash][splash-url] | ![CPU Stats][cpu-stats-url] | ![RAM Stats][ram-stats-url] | ![Storage Stats][storage-stats-url] | ![Network Stats][network-stats-url] | ![Exit][exit-url] |
+|  | | ![CPU Stats][cpu-stats-url-icon] | ![RAM Stats][ram-stats-url-icon] | ![Storage Stats][storage-stats-url-icon] | ![Network Stats][network-stats-url-icon] | |
+|  | | ![CPU Stats][cpu-stats-url-compact] | ![RAM Stats][ram-stats-url-compact] | ![Storage Stats][storage-stats-url-compact] | ![Network Stats][network-stats-url-compact] | |
 
 ## Custom Screen & Static Text Variables
 Aswell as the above screens, you can configure a static custom screen which can be fixed or animated.
@@ -137,7 +139,7 @@ cd rpi_i2c_oled
 python3 display.py
 ```
 
-Create a service 
+Create a service
 -----------------
 
 Copy the repo file to /etc:
@@ -167,7 +169,7 @@ sudo systemctl enable oled.service
 
 You can modify the display of the content by editing the ```options.json``` file.
 
-By default the ```options.json``` is loaded from the same directory as the ```display.py```. 
+By default the ```options.json``` is loaded from the same directory as the ```display.py```.
 
 Note: The keys are case **in**sensitive
 
@@ -186,6 +188,9 @@ python3 display.py --config /path/to/options.json
 | i2c_bus     | int  | **Required** | I2C bus number. /dev/i2c-[bus number]                  | `1`                 |
 | Temperature_Unit     | string  | **Required** | Display the CPU temperature in C or F                  | `C`                 |
 | Rotate     | int  | **Optional** | Rotates the screen by the number of degrees provided counter clockwise around its centre (e.g. 180 displays the screen upside down).     | 0                 |
+| Show_Icons | boolean | **Optional** | Show icons for each screen | `true` |
+| Show_Hint | boolean | **Optional** | Show hint for each screen (instead of icon) | `false` |
+| Compact   | boolean | **Optional** | Show data in a more compact form | `false` |
 | Default_Duration     | int     | **Required** | How long in seconds to display each screen by default. Ignored if specified on specific screen  | `10`                |
 | DateTime_Format      | string  | **Optional** | Format of the ```{datetime}``` static text variable  | `%d/%m/%Y %H:%M:%S` |
 | Graceful_Exit_Text   | string  | **Optional** | Text to display when the service is exited. Accepts same variables as the custom screen.  | `Exited at {datetime}` |
@@ -279,6 +284,7 @@ MIT license, all text above must be included in any redistribution
 [release-badge]: https://img.shields.io/github/v/release/crismc/rpi_i2c_oled?style=flat-square
 [downloads-badge]: https://img.shields.io/github/downloads/crismc/rpi_i2c_oled/total?style=flat-square
 [release-url]: https://github.com/crismc/rpi_i2c_oled/releases
+
 [welcome-url]: /img/examples/welcome.png?raw=true
 [cpu-stats-url]: /img/examples/cpu.png?raw=true
 [ram-stats-url]: /img/examples/memory.png?raw=true
@@ -286,3 +292,13 @@ MIT license, all text above must be included in any redistribution
 [network-stats-url]: /img/examples/network.png?raw=true
 [splash-url]: /img/examples/splash.png?raw=true
 [exit-url]: /img/examples/static_goodbye.png?raw=true
+
+[cpu-stats-url-compact]: /img/examples/compact/cpu.png?raw=true
+[ram-stats-url-compact]: /img/examples/compact/memory.png?raw=true
+[storage-stats-url-compact]: /img/examples/compact/storage.png?raw=true
+[network-stats-url-compact]: /img/examples/compact/network.png?raw=true
+
+[cpu-stats-url-icon]: /img/examples/icon/cpu.png?raw=true
+[ram-stats-url-icon]: /img/examples/icon/memory.png?raw=true
+[storage-stats-url-icon]: /img/examples/icon/storage.png?raw=true
+[network-stats-url-icon]: /img/examples/icon/network.png?raw=true
