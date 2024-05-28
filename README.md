@@ -225,11 +225,11 @@ I2C](https://www.amazon.co.uk/gp/product/B07BDFXFRK/)
 
 ## Credits
 
-* Special thanks to [Gareth Cheyne](https://github.com/garethcheyne/HomeAssistant) for his initial version of this project. After the removal of GPIO support from Home Assistant, the referenced addon no longer worked for me, so I took the initial project apart, and smashed it together with the Adafruit I2C libraries removing the GPIO requirements. Additionally, the original build didn't work on 64-bit versions of the Raspberry Pi, nor would it work as a stand alone service.
+* Special thanks to [Gareth Cheyne](https://github.com/garethcheyne/HomeAssistant) for his initial version of this project.
 
 * [Tony DiCola](https://github.com/tdicola) ([RIP](https://cascadememorial.com/obituary/659469/Anthony-Charles-Dicola/)) and [Adafruit Industries](https://github.com/adafruit) for initial implementation details, see original repo: https://github.com/adafruit/Adafruit_Python_SSD1306
 
-* [crismc](https://github.com/crismc/)
+* [crismc](https://github.com/crismc/) - After the removal of GPIO support from Home Assistant, the referenced addon no longer worked for me, so I took the initial project apart, and smashed it together with the Adafruit I2C libraries removing the GPIO requirements. Additionally, the original build didn't work on 64-bit versions of the Raspberry Pi, nor would it work as a stand alone service.
 
 * Ultronics
 
