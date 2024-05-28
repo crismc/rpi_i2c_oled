@@ -74,11 +74,13 @@ I purchased this [MakerHawk I2C OLED Display Module I2C Screen Module 0.91" 128X
 
 Pin setup:
 --------------
-```
-- PIN1 : Power (3.3V / VCC)
-- PIN3: SDA (I2C Data)
-- PIN5: SCL (I2C Clock)
-- PIN14: Ground (0V)
+
+| Pin | Details            |
+|:---:|--------------------|
+| 1   | Power (3.3V / VCC) |
+| 3   | SDA (I2C Data)     |
+| 5   | SCL (I2C Clock)    |
+| 14  | Ground (0V)        |
 ```
 
 Enable I2C on the Raspberry Pi
@@ -87,7 +89,9 @@ sudo raspi-config
 # Interface Options > I2C
 ```
 
-One-Step Automated Install
+## Installation
+
+### One-Step Automated Install
 ----------------
 Those who want to get started quickly and conveniently may install the RPI_I2C_OLED using the following command:
 ```
@@ -101,7 +105,7 @@ sudo service oled stop
 sudo service oled restart
 ```
 
-Installing From Source
+### Installing From Source
 ------------------------
 Initial apt-get installs:
 ```
@@ -130,7 +134,7 @@ cd rpi_i2c_oled
 python3 display.py
 ```
 
-Create a service
+### Running as a Service
 -----------------
 
 Copy the repo file to /etc:
@@ -210,7 +214,7 @@ Therefore, to enable debugging, when running ```display.py``` add ```-d``` or ``
 
 e.g.:
 
-```
+```console
 $ python3 display.py -d
 INFO:Config:Loading config: /etc/rpi_i2c_oled/options.json
 INFO:Config:Home Assistant is not supported on this instance
@@ -231,6 +235,8 @@ Several examples of SSD1306 driven I2C OLED hardware that should work. This was 
 * [Adafruit 128x32 I2C OLED](https://www.adafruit.com/product/931)
 * [Adafruit 0.91" 128x32 I2C OLED - STEMMA QT / Qwiic](https://www.adafruit.com/product/4440)
 * [Adafruit PiOLED 128x32 OLED Add-on for Raspberry Pi](https://www.adafruit.com/product/3527)
+* [MakerHawk I2C OLED Display Module I2C Screen Module 0.91" 128X32
+I2C](https://www.amazon.co.uk/gp/product/B07BDFXFRK/)
 
 ## Credits
 
