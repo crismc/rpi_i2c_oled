@@ -58,11 +58,9 @@ Adafruit invests time and resources providing this open source code, please supp
 
 Home Assistant Support
 ======================
-This repository has been broken out to work as a standalone service and will work on a standard Raspberry Pi running Raspian.
+This repository has been broken out to work as a standalone service and will work on a standard Raspberry Pi running Raspian. Any screens which are dependent on Home Assistant (e.g. ```Splash```) will be automatically disabled.
 
-Any screens which are dependent on Home Assistant (e.g. ```Splash```) will be automatically disabled
-
-Home Assistant variant of this build can be accessed from [HomeAssistant_Addons](https://github.com/crismc/homeassistant_addons)
+The Home Assistant add-on that uses this can be accessed from [HomeAssistant_Addons](https://github.com/crismc/homeassistant_addons)
 <br>
 <br>
 
@@ -72,9 +70,6 @@ You can use 0.91 Inch 128X32 I2C module, as long as it is registered on /dev/i2c
 
 I purchased this [MakerHawk I2C OLED Display Module I2C Screen Module 0.91" 128X32 I2C](https://www.amazon.co.uk/gp/product/B07BDFXFRK/ref=ppx_yo_dt_b_asin_title_o07_s00?ie=UTF8&psc=1)
 
-Pin setup:
---------------
-
 | Pin | Details            |
 |:---:|--------------------|
 | 1   | Power (3.3V / VCC) |
@@ -82,13 +77,14 @@ Pin setup:
 | 5   | SCL (I2C Clock)    |
 | 14  | Ground (0V)        |
 
-Enable I2C on the Raspberry Pi
+
+## Installation
+
+## Enable I2C on the Raspberry Pi
 ```
 sudo raspi-config
 # Interface Options > I2C
 ```
-
-## Installation
 
 ### One-Step Automated Install
 ----------------
@@ -229,7 +225,7 @@ INFO:Screen:'WelcomeScreen' rendering
 
 ## Compatible Hardware (SSD1306 Chips)
 
-Several examples of SSD1306 driven I2C OLED hardware that should work. This was originally designed specifically to work with the Adafruit SSD1306-based OLED displays: https://www.adafruit.com/categories/98
+Several examples of SSD1306 driven I2C OLED hardware that should work. This was originally designed specifically to work with the [Adafruit SSD1306-based OLED displays](https://www.adafruit.com/categories/98). Adafruit invests time and resources providing this open source code, please support Adafruit and open-source hardware by purchasing products from Adafruit!
 
 * [Adafruit 128x32 I2C OLED](https://www.adafruit.com/product/931)
 * [Adafruit 0.91" 128x32 I2C OLED - STEMMA QT / Qwiic](https://www.adafruit.com/product/4440)
