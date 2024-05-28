@@ -222,6 +222,7 @@ Several examples of SSD1306 driven I2C OLED hardware that should work. This was 
 * [Adafruit PiOLED 128x32 OLED Add-on for Raspberry Pi](https://www.adafruit.com/product/3527)
 * [MakerHawk I2C OLED Display Module I2C Screen Module 0.91" 128x32
 I2C](https://www.amazon.co.uk/gp/product/B07BDFXFRK/)
+* [UCTRONICS Raspberry Pi Rack](https://www.amazon.com/gp/product/B0998MXWR6)
 
 ## Credits
 
