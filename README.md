@@ -237,7 +237,7 @@ INFO:Screen:'WelcomeScreen' rendering
 
 # Credits
 
-* [Tony DiCola](https://github.com/tdicola) ([RIP](https://cascadememorial.com/obituary/659469/Anthony-Charles-Dicola/)) and Adafruit Industries for initial implementation details.
+* [Tony DiCola](https://github.com/tdicola) ([RIP](https://cascadememorial.com/obituary/659469/Anthony-Charles-Dicola/)) and [Adafruit Industries](https://github.com/adafruit) for initial implementation details.
 * [crismc](https://github.com/crismc/)
 
 # See Also
