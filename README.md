@@ -1,14 +1,12 @@
-IC2 OLED Controller for Raspberry Pi
-=======================
+I2C OLED Controller for Raspberry Pi
+====================================
 
-Python library to enable 128x32 pixel OLED for Raspberry Pi (both 32 and 64bit).
-
-This repository has been broken out to work as a standalone service and will work on a standard Raspberry Pi running Raspian.
+Python library to enable 128x32 pixel OLED for Raspberry Pi (both 32 and 64-bit). This works as a standalone service and can run on a standard Raspberry Pi running Raspian.
 
 <a href="https://www.buymeacoffee.com/jedimeat" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/white_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
+[![license-badge]][license-url]
 [![release][release-badge]][release-url]
-![downloads][downloads-badge]
 <br>
 <br>
 
@@ -250,6 +248,8 @@ INFO:Screen:'WelcomeScreen' rendering
 [release-badge]: https://img.shields.io/github/v/release/crismc/rpi_i2c_oled?style=flat-square
 [downloads-badge]: https://img.shields.io/github/downloads/crismc/rpi_i2c_oled/total?style=flat-square
 [release-url]: https://github.com/crismc/rpi_i2c_oled/releases
+[license-badge]: https://img.shields.io/badge/License-MIT-yellow.svg
+[license-url]: https://opensource.org/licenses/MIT
 
 [welcome-url]: /img/examples/welcome.png?raw=true
 [cpu-stats-url]: /img/examples/cpu.png?raw=true

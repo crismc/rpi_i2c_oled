@@ -91,6 +91,12 @@ class SSD1306Base(object):
         self._bus.write_byte_data(self._address, control, value)
         self._log.debug("Wrote 0x%02X to register 0x%02X", value, control)
 
+    def send_commands(self, commands):
+        """Send multiple command bytes to display."""
+        if commands:
+            for c in commands:
+                self.command(c)
+
     def begin(self, vccstate=SSD1306_SWITCHCAPVCC):
         """Initialize display."""
         # Save vcc state.
