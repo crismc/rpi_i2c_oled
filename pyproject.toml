@@ -1,0 +1,23 @@
+[project]
+requires-python = ">=3.10"
+
+[tool.isort]
+profile = "black"
+force_to_top = [ "logging" ]
+balanced_wrapping = true
+
+[tool.ruff]
+line-length = 88
+indent-width = 4
+lint.ignore = [ "F403", "F405" ]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = [ "F401" ]
+
+[tool.ruff.format]
+quote-style = "single" # Use a single quote instead of double
+
+[tool.refurb]
+python_version = "3.10"
+quiet = true
+ignore = [ "FURB184" ]
