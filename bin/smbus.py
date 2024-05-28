@@ -38,10 +38,18 @@ Implementation Notes
 
 """
 
-from ctypes import c_uint8, c_uint16, c_uint32, cast, pointer, POINTER
-from ctypes import create_string_buffer, Structure
-from fcntl import ioctl
 import struct
+from ctypes import (
+    POINTER,
+    Structure,
+    c_uint8,
+    c_uint16,
+    c_uint32,
+    cast,
+    create_string_buffer,
+    pointer,
+)
+from fcntl import ioctl
 
 # I2C C API constants (from linux kernel headers)
 I2C_M_TEN = 0x0010  # this is a ten bit chip address

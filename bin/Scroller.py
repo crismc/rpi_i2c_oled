@@ -1,6 +1,9 @@
-import math
 import logging
+import math
+
 from bin.Utils import Utils
+
+
 class Scroller:
     default_amplitude = 0
 

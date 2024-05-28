@@ -1,9 +1,11 @@
-import json
 import logging
+import json
 import signal
-from bin.Utils import Utils, HassioUtils
-from bin.Screens import *  
+
+from bin.Screens import *
 from bin.Scroller import Scroller
+from bin.Utils import HassioUtils, Utils
+
 
 class Config:
     DEFAULT_DURATION = 10
