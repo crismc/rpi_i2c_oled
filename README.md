@@ -81,7 +81,6 @@ Pin setup:
 | 3   | SDA (I2C Data)     |
 | 5   | SCL (I2C Clock)    |
 | 14  | Ground (0V)        |
-```
 
 Enable I2C on the Raspberry Pi
 ```
