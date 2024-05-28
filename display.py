@@ -59,7 +59,7 @@ def set_logging_level(level):
     logging.basicConfig()
     main = logging.getLogger(__name__)
     if level: main.setLevel(level)
-    for name in ['Screen', 'Config', 'Display', 'Utils']:
+    for name in ('Screen', 'Config', 'Display', 'Utils'):
         log = logging.getLogger(name)
         if level: log.setLevel(level)
 
