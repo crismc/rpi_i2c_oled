@@ -233,12 +233,20 @@ INFO:Screen:'WelcomeScreen' rendering
 <br>
 <br>
 
-# Credits
+## Compatible Hardware (SSD1306 Chips)
+
+Several examples of SSD1306 driven I2C OLED hardware that should work:
+
+* [Adafruit 128x32 I2C OLED](https://www.adafruit.com/product/931)
+* [Adafruit 0.91" 128x32 I2C OLED - STEMMA QT / Qwiic](https://www.adafruit.com/product/4440)
+* [Adafruit PiOLED 128x32 OLED Add-on for Raspberry Pi](https://www.adafruit.com/product/3527)
+
+## Credits
 
 * [Tony DiCola](https://github.com/tdicola) ([RIP](https://cascadememorial.com/obituary/659469/Anthony-Charles-Dicola/)) and [Adafruit Industries](https://github.com/adafruit) for initial implementation details.
 * [crismc](https://github.com/crismc/)
 
-# See Also
+## See Also
 
 * [IC2 OLED Home Assistant Add-On](https://github.com/akonkol/homeassistant_addons)
 * [Adafruit Python SSD1306 notice to comply with distribution requirement](Adafruit_Notice.md)
