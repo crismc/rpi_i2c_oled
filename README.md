@@ -1,4 +1,4 @@
-IC2 OLED controller for Raspberry PI
+IC2 OLED Controller for Raspberry Pi
 =======================
 
 Python library to enable 128x32 pixel OLED for Raspberry Pi (both 32 and 64bit).
@@ -242,6 +242,7 @@ INFO:Screen:'WelcomeScreen' rendering
 
 # See Also
 
+* [IC2 OLED Home Assistant Add-On](https://github.com/akonkol/homeassistant_addons)
 * [Adafruit Python SSD1306 notice to comply with distribution requirement](Adafruit_Notice.md)
 
 
