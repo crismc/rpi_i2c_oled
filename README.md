@@ -56,15 +56,6 @@ Adafruit invests time and resources providing this open source code, please supp
 <br>
 <br>
 
-[Gareth Cheyne](https://github.com/garethcheyne/HomeAssistant) & Ultronics
-======================
-Special thanks to [Gareth Cheyne](https://github.com/garethcheyne/HomeAssistant) for his intial version of this project.
-After the removal of GPIO support from Home Assistant, the referenced addon no longer worked for me, so I took the initial project apart, and smashed it together with the Adafruit I2C libraries removing the GPIO requirements.
-
-Additionally, the original build didn't work on 64bit versions of the Raspberry Pi, nor would it work as a stand alone service.
-<br>
-<br>
-
 Home Assistant Support
 ======================
 This repository has been broken out to work as a standalone service and will work on a standard Raspberry Pi running Raspian.
@@ -235,7 +226,7 @@ INFO:Screen:'WelcomeScreen' rendering
 
 ## Compatible Hardware (SSD1306 Chips)
 
-Several examples of SSD1306 driven I2C OLED hardware that should work:
+Several examples of SSD1306 driven I2C OLED hardware that should work. This was originally designed specifically to work with the Adafruit SSD1306-based OLED displays: https://www.adafruit.com/categories/98
 
 * [Adafruit 128x32 I2C OLED](https://www.adafruit.com/product/931)
 * [Adafruit 0.91" 128x32 I2C OLED - STEMMA QT / Qwiic](https://www.adafruit.com/product/4440)
@@ -243,8 +234,11 @@ Several examples of SSD1306 driven I2C OLED hardware that should work:
 
 ## Credits
 
+* Special thanks to [Gareth Cheyne](https://github.com/garethcheyne/HomeAssistant) for his initial version of this project. After the removal of GPIO support from Home Assistant, the referenced addon no longer worked for me, so I took the initial project apart, and smashed it together with the Adafruit I2C libraries removing the GPIO requirements. Additionally, the original build didn't work on 64-bit versions of the Raspberry Pi, nor would it work as a stand alone service.
+
 * [Tony DiCola](https://github.com/tdicola) ([RIP](https://cascadememorial.com/obituary/659469/Anthony-Charles-Dicola/)) and [Adafruit Industries](https://github.com/adafruit) for initial implementation details.
 * [crismc](https://github.com/crismc/)
+* Ultronics
 
 ## See Also
 
