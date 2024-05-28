@@ -66,9 +66,9 @@ The Home Assistant add-on that uses this can be accessed from [HomeAssistant_Add
 
 Hardware Setup
 ===============
-You can use 0.91 Inch 128X32 I2C module, as long as it is registered on /dev/i2c-1 which is the Rasperry Pi default.
+You can use 0.91 Inch 128x32 I2C module, as long as it is registered on /dev/i2c-1 which is the Rasperry Pi default.
 
-I purchased this [MakerHawk I2C OLED Display Module I2C Screen Module 0.91" 128X32 I2C](https://www.amazon.co.uk/gp/product/B07BDFXFRK/ref=ppx_yo_dt_b_asin_title_o07_s00?ie=UTF8&psc=1)
+I purchased this [MakerHawk I2C OLED Display Module I2C Screen Module 0.91" 128x32 I2C](https://www.amazon.co.uk/gp/product/B07BDFXFRK/ref=ppx_yo_dt_b_asin_title_o07_s00?ie=UTF8&psc=1)
 
 | Pin | Details            |
 |:---:|--------------------|
@@ -230,7 +230,7 @@ Several examples of SSD1306 driven I2C OLED hardware that should work. This was 
 * [Adafruit 128x32 I2C OLED](https://www.adafruit.com/product/931)
 * [Adafruit 0.91" 128x32 I2C OLED - STEMMA QT / Qwiic](https://www.adafruit.com/product/4440)
 * [Adafruit PiOLED 128x32 OLED Add-on for Raspberry Pi](https://www.adafruit.com/product/3527)
-* [MakerHawk I2C OLED Display Module I2C Screen Module 0.91" 128X32
+* [MakerHawk I2C OLED Display Module I2C Screen Module 0.91" 128x32
 I2C](https://www.amazon.co.uk/gp/product/B07BDFXFRK/)
 
 ## Credits
