@@ -12,7 +12,8 @@ This repository has been broken out to work as a standalone service and will wor
 <br>
 <br>
 
-## Some Teaser Screenshots.
+## Some Teaser Screenshots
+
 | Welcome | HA Splash | CPU | Memory | Storage | Network | Exit Screen |
 |-----------|-----------|-----------|-----------|---------------|---------------|---------------|
 | ![Welcome][welcome-url] | ![Splash][splash-url] | ![CPU Stats][cpu-stats-url] | ![RAM Stats][ram-stats-url] | ![Storage Stats][storage-stats-url] | ![Network Stats][network-stats-url] | ![Exit][exit-url] |
@@ -20,7 +21,8 @@ This repository has been broken out to work as a standalone service and will wor
 |  | | ![CPU Stats][cpu-stats-url-compact] | ![RAM Stats][ram-stats-url-compact] | ![Storage Stats][storage-stats-url-compact] | ![Network Stats][network-stats-url-compact] | |
 
 ## Custom Screen & Static Text Variables
-Aswell as the above screens, you can configure a static custom screen which can be fixed or animated.
+
+As well as the above screens, you can configure a static custom screen which can be fixed or animated.
 
 If the configured text is greater than the screen size, it will scroll across the screen unless you configure it to display as lines.
 
@@ -233,52 +235,15 @@ INFO:Screen:'WelcomeScreen' rendering
 <br>
 <br>
 
-# Legal Stuff Required By Adafruit
-As part of the library leveraged to produce this service, the below text needs to be copied... *(yawn)*
+# Credits
 
-However, you can ignore the install instructions below as they've been replaced by the above.
+* [Tony DiCola](https://github.com/tdicola) / Adafruit Industries for initial implementation details.
+* [crismc](https://github.com/crismc/)
 
-[Original Adafruit Repository](https://github.com/adafruit/Adafruit_Python_SSD1306)
+# See Also
 
-*DEPRECATED LIBRARY* Adafruit Python SSD1306
-=======================
+* [Adafruit Python SSD1306 notice to comply with distribution requirement](Adafruit_Notice.md)
 
-his library has been deprecated! We are leaving this up for historical and research purposes but archiving the repository.
-
-We are now only supporting the use of our CircuitPython libraries for use with Python.
-
-Check out this guide for info on using OLEDs with the CircuitPython library: https://learn.adafruit.com/monochrome-oled-breakouts/python-wiring
-
----------------------------------------
-
-Python library to use SSD1306-based 128x64 or 128x32 pixel OLED displays with a Raspberry Pi or Beaglebone Black.
-
-Designed specifically to work with the Adafruit SSD1306-based OLED displays ----> https://www.adafruit.com/categories/98
-
-Adafruit invests time and resources providing this open source code, please support Adafruit and open-source hardware by purchasing products from Adafruit!
-
-Installing
-----------
-
-```
-sudo python -m pip install --upgrade pip setuptools wheel
-sudo pip install Adafruit-SSD1306
-```
-
-Or alternatively:
-
-```
-sudo python -m pip install --upgrade pip setuptools wheel
-git clone https://github.com/adafruit/Adafruit_Python_SSD1306.git
-cd Adafruit_Python_SSD1306
-sudo python setup.py install
-```
-
-Copying
--------
-
-Written by Tony DiCola for Adafruit Industries.
-MIT license, all text above must be included in any redistribution
 
 <!-- References -->
 [release-badge]: https://img.shields.io/github/v/release/crismc/rpi_i2c_oled?style=flat-square
