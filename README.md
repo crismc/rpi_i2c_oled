@@ -1,7 +1,9 @@
 I2C OLED Controller for Raspberry Pi
 ====================================
 
-Python library to enable 128x32 pixel OLED for Raspberry Pi (both 32 and 64-bit). This works as a standalone service and can run on a standard Raspberry Pi running Raspian.
+Python library to enable 128x32 pixel OLED for Raspberry Pi (both 32 and 64-bit) that utilize the SSD1306 chipset. This works as a standalone service and can run on a standard Raspberry Pi running Raspian.
+
+**This addon leverages the original [Adafruit Python SSD1306](https://github.com/adafruit/Adafruit_Python_SSD1306) and [GPIO](https://github.com/adafruit/Adafruit_Python_GPIO) libraries, which have been deprecated. However, I have taken the nessassary parts out of this and bundled them into this I2C module avoiding the need for GPIO and relying on the Raspberry Pi's I2C setup.**
 
 <a href="https://www.buymeacoffee.com/jedimeat" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/white_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
@@ -41,18 +43,6 @@ The following variables are supported
 | {ip}                   | Displays the host device IP |
 | {hassio.info.property} | Fetches a specified property from Home Assistants supervisor API (e.g. http://supervisor/os/info). You can state the namespace and property which will populate with the responding value. This must be fixed with hassio first, followed by the namespace (e.g. os, network etc), then the property e.g. hassio.os.latest_version will call http://supervisor/os/info and display the ```latest_version``` value. |
 
-<br>
-<br>
-
-Adafruit Python SSD1306
-=======================
-**This addon leverages the original [Adafruit Python SSD1306](https://github.com/adafruit/Adafruit_Python_SSD1306) and [GPIO](https://github.com/adafruit/Adafruit_Python_GPIO) libraries, which have been deprecated. However, I have taken the nessassary parts out of this and bundled them into this I2C module avoiding the need for GPIO and relying on the Raspberry Pi's I2C setup.**
-
-Original Repo: https://github.com/adafruit/Adafruit_Python_SSD1306
-
-Originally designed specifically to work with the Adafruit SSD1306-based OLED displays ----> https://www.adafruit.com/categories/98
-
-Adafruit invests time and resources providing this open source code, please support Adafruit and open-source hardware by purchasing products from Adafruit!
 <br>
 <br>
 
@@ -237,8 +227,10 @@ I2C](https://www.amazon.co.uk/gp/product/B07BDFXFRK/)
 
 * Special thanks to [Gareth Cheyne](https://github.com/garethcheyne/HomeAssistant) for his initial version of this project. After the removal of GPIO support from Home Assistant, the referenced addon no longer worked for me, so I took the initial project apart, and smashed it together with the Adafruit I2C libraries removing the GPIO requirements. Additionally, the original build didn't work on 64-bit versions of the Raspberry Pi, nor would it work as a stand alone service.
 
-* [Tony DiCola](https://github.com/tdicola) ([RIP](https://cascadememorial.com/obituary/659469/Anthony-Charles-Dicola/)) and [Adafruit Industries](https://github.com/adafruit) for initial implementation details.
+* [Tony DiCola](https://github.com/tdicola) ([RIP](https://cascadememorial.com/obituary/659469/Anthony-Charles-Dicola/)) and [Adafruit Industries](https://github.com/adafruit) for initial implementation details, see original repo: https://github.com/adafruit/Adafruit_Python_SSD1306
+
 * [crismc](https://github.com/crismc/)
+
 * Ultronics
 
 ## See Also
