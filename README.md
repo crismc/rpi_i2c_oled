@@ -242,7 +242,7 @@ Several examples of SSD1306 driven I2C OLED hardware that should work. This was 
 
 ## See Also
 
-* [IC2 OLED Home Assistant Add-On](https://github.com/akonkol/homeassistant_addons)
+* [IC2 OLED Home Assistant Add-On](https://github.com/crismc/homeassistant_addons)
 * [Adafruit Python SSD1306 notice to comply with distribution requirement](Adafruit_Notice.md)
 
 
