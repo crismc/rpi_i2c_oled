@@ -1,11 +1,13 @@
 #!/usr/bin/python3
-import sys
+
+import logging
 import getopt
 import os
-import logging
+import sys
+
 from bin.Config import Config
-from bin.Utils import Utils
 from bin.Screens import Display
+from bin.Utils import Utils
 
 LOG_LEVEL = logging.WARNING
 
@@ -35,7 +37,7 @@ def print_help():
 
 def start(config, logger):
     screens = config.get_enabled_screens()
-    
+
     if not screens:
         raise Exception("No screens are available")
 
@@ -57,7 +59,7 @@ def set_logging_level(level):
     logging.basicConfig()
     main = logging.getLogger(__name__)
     if level: main.setLevel(level)
-    for name in ['Screen', 'Config', 'Display', 'Utils']:
+    for name in ('Screen', 'Config', 'Display', 'Utils'):
         log = logging.getLogger(name)
         if level: log.setLevel(level)
 
@@ -73,7 +75,7 @@ if __name__ == "__main__":
     except getopt.GetoptError:
         print_help()
         sys.exit(2)
- 
+
     for opt, arg in opts:
         if opt in ("-h", "--help"):
             print_help()

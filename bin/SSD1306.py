@@ -19,7 +19,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 from __future__ import division
+
 import logging
+
 # import SSD1306.I2C as I2C
 import smbus
 
@@ -88,6 +90,12 @@ class SSD1306Base(object):
         value = c & 0xFF
         self._bus.write_byte_data(self._address, control, value)
         self._log.debug("Wrote 0x%02X to register 0x%02X", value, control)
+
+    def send_commands(self, commands):
+        """Send multiple command bytes to display."""
+        if commands:
+            for c in commands:
+                self.command(c)
 
     def begin(self, vccstate=SSD1306_SWITCHCAPVCC):
         """Initialize display."""

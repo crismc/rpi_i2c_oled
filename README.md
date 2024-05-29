@@ -1,18 +1,19 @@
-IC2 OLED controller for Raspberry PI
-=======================
+I2C OLED Controller for Raspberry Pi
+====================================
 
-Python library to enable 128x32 pixel OLED for Raspberry Pi (both 32 and 64bit).
+Python library to enable 128x32 pixel OLED for Raspberry Pi (both 32 and 64-bit) that utilize the SSD1306 chipset. This works as a standalone service and can run on a standard Raspberry Pi running Raspian.
 
-This repository has been broken out to work as a standalone service and will work on a standard Raspberry Pi running Raspian.
+**This addon leverages the original [Adafruit Python SSD1306](https://github.com/adafruit/Adafruit_Python_SSD1306) and [GPIO](https://github.com/adafruit/Adafruit_Python_GPIO) libraries, which have been deprecated. However, I have taken the nessassary parts out of this and bundled them into this I2C module avoiding the need for GPIO and relying on the Raspberry Pi's I2C setup.**
 
 <a href="https://www.buymeacoffee.com/jedimeat" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/white_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
+[![license-badge]][license-url]
 [![release][release-badge]][release-url]
-![downloads][downloads-badge]
 <br>
 <br>
 
-## Some Teaser Screenshots.
+## Some Teaser Screenshots
+
 | Welcome | HA Splash | CPU | Memory | Storage | Network | Exit Screen |
 |-----------|-----------|-----------|-----------|---------------|---------------|---------------|
 | ![Welcome][welcome-url] | ![Splash][splash-url] | ![CPU Stats][cpu-stats-url] | ![RAM Stats][ram-stats-url] | ![Storage Stats][storage-stats-url] | ![Network Stats][network-stats-url] | ![Exit][exit-url] |
@@ -20,7 +21,8 @@ This repository has been broken out to work as a standalone service and will wor
 |  | | ![CPU Stats][cpu-stats-url-compact] | ![RAM Stats][ram-stats-url-compact] | ![Storage Stats][storage-stats-url-compact] | ![Network Stats][network-stats-url-compact] | |
 
 ## Custom Screen & Static Text Variables
-Aswell as the above screens, you can configure a static custom screen which can be fixed or animated.
+
+As well as the above screens, you can configure a static custom screen which can be fixed or animated.
 
 If the configured text is greater than the screen size, it will scroll across the screen unless you configure it to display as lines.
 
@@ -44,59 +46,37 @@ The following variables are supported
 <br>
 <br>
 
-Adafruit Python SSD1306
-=======================
-**This addon leverages the original [Adafruit Python SSD1306](https://github.com/adafruit/Adafruit_Python_SSD1306) and [GPIO](https://github.com/adafruit/Adafruit_Python_GPIO) libraries, which have been deprecated. However, I have taken the nessassary parts out of this and bundled them into this I2C module avoiding the need for GPIO and relying on the Raspberry Pi's I2C setup.**
-
-Original Repo: https://github.com/adafruit/Adafruit_Python_SSD1306
-
-Originally designed specifically to work with the Adafruit SSD1306-based OLED displays ----> https://www.adafruit.com/categories/98
-
-Adafruit invests time and resources providing this open source code, please support Adafruit and open-source hardware by purchasing products from Adafruit!
-<br>
-<br>
-
-[Gareth Cheyne](https://github.com/garethcheyne/HomeAssistant) & Ultronics
-======================
-Special thanks to [Gareth Cheyne](https://github.com/garethcheyne/HomeAssistant) for his intial version of this project.
-After the removal of GPIO support from Home Assistant, the referenced addon no longer worked for me, so I took the initial project apart, and smashed it together with the Adafruit I2C libraries removing the GPIO requirements.
-
-Additionally, the original build didn't work on 64bit versions of the Raspberry Pi, nor would it work as a stand alone service.
-<br>
-<br>
-
 Home Assistant Support
 ======================
-This repository has been broken out to work as a standalone service and will work on a standard Raspberry Pi running Raspian.
+This repository has been broken out to work as a standalone service and will work on a standard Raspberry Pi running Raspian. Any screens which are dependent on Home Assistant (e.g. ```Splash```) will be automatically disabled.
 
-Any screens which are dependent on Home Assistant (e.g. ```Splash```) will be automatically disabled
-
-Home Assistant variant of this build can be accessed from [HomeAssistant_Addons](https://github.com/crismc/homeassistant_addons)
+The Home Assistant add-on that uses this can be accessed from [HomeAssistant_Addons](https://github.com/crismc/homeassistant_addons)
 <br>
 <br>
 
 Hardware Setup
 ===============
-You can use 0.91 Inch 128X32 I2C module, as long as it is registered on /dev/i2c-1 which is the Rasperry Pi default.
+You can use 0.91 Inch 128x32 I2C module, as long as it is registered on /dev/i2c-1 which is the Rasperry Pi default.
 
-I purchased this [MakerHawk I2C OLED Display Module I2C Screen Module 0.91" 128X32 I2C](https://www.amazon.co.uk/gp/product/B07BDFXFRK/ref=ppx_yo_dt_b_asin_title_o07_s00?ie=UTF8&psc=1)
+I purchased this [MakerHawk I2C OLED Display Module I2C Screen Module 0.91" 128x32 I2C](https://www.amazon.co.uk/gp/product/B07BDFXFRK/ref=ppx_yo_dt_b_asin_title_o07_s00?ie=UTF8&psc=1)
 
-Pin setup:
---------------
-```
-- PIN1 : Power (3.3V / VCC)
-- PIN3: SDA (I2C Data)
-- PIN5: SCL (I2C Clock)
-- PIN14: Ground (0V)
-```
+| Pin | Details            |
+|:---:|--------------------|
+| 1   | Power (3.3V / VCC) |
+| 3   | SDA (I2C Data)     |
+| 5   | SCL (I2C Clock)    |
+| 14  | Ground (0V)        |
 
-Enable I2C on the Raspberry Pi
+
+## Installation
+
+## Enable I2C on the Raspberry Pi
 ```
 sudo raspi-config
 # Interface Options > I2C
 ```
 
-One-Step Automated Install
+### One-Step Automated Install
 ----------------
 Those who want to get started quickly and conveniently may install the RPI_I2C_OLED using the following command:
 ```
@@ -110,7 +90,7 @@ sudo service oled stop
 sudo service oled restart
 ```
 
-Installing From Source
+### Installing From Source
 ------------------------
 Initial apt-get installs:
 ```
@@ -139,7 +119,7 @@ cd rpi_i2c_oled
 python3 display.py
 ```
 
-Create a service
+### Running as a Service
 -----------------
 
 Copy the repo file to /etc:
@@ -219,7 +199,7 @@ Therefore, to enable debugging, when running ```display.py``` add ```-d``` or ``
 
 e.g.:
 
-```
+```console
 $ python3 display.py -d
 INFO:Config:Loading config: /etc/rpi_i2c_oled/options.json
 INFO:Config:Home Assistant is not supported on this instance
@@ -233,57 +213,39 @@ INFO:Screen:'WelcomeScreen' rendering
 <br>
 <br>
 
-# Legal Stuff Required By Adafruit
-As part of the library leveraged to produce this service, the below text needs to be copied... *(yawn)*
+## Compatible Hardware (SSD1306 Chips)
 
-However, you can ignore the install instructions below as they've been replaced by the above.
+Several examples of SSD1306 driven I2C OLED hardware that should work. This was originally designed specifically to work with the [Adafruit SSD1306-based OLED displays](https://www.adafruit.com/categories/98). Adafruit invests time and resources providing this open source code, please support Adafruit and open-source hardware by purchasing products from Adafruit!
 
-[Original Adafruit Repository](https://github.com/adafruit/Adafruit_Python_SSD1306)
+* [Adafruit 128x32 I2C OLED](https://www.adafruit.com/product/931)
+* [Adafruit 0.91" 128x32 I2C OLED - STEMMA QT / Qwiic](https://www.adafruit.com/product/4440)
+* [Adafruit PiOLED 128x32 OLED Add-on for Raspberry Pi](https://www.adafruit.com/product/3527)
+* [MakerHawk I2C OLED Display Module I2C Screen Module 0.91" 128x32
+I2C](https://www.amazon.co.uk/gp/product/B07BDFXFRK/)
+* [UCTRONICS Raspberry Pi Rack](https://www.amazon.com/gp/product/B0998MXWR6)
 
-*DEPRECATED LIBRARY* Adafruit Python SSD1306
-=======================
+## Credits
 
-his library has been deprecated! We are leaving this up for historical and research purposes but archiving the repository.
+* Special thanks to [Gareth Cheyne](https://github.com/garethcheyne/HomeAssistant) for his initial version of this project.
 
-We are now only supporting the use of our CircuitPython libraries for use with Python.
+* [Tony DiCola](https://github.com/tdicola) ([RIP](https://cascadememorial.com/obituary/659469/Anthony-Charles-Dicola/)) and [Adafruit Industries](https://github.com/adafruit) for initial implementation details, see original repo: https://github.com/adafruit/Adafruit_Python_SSD1306
 
-Check out this guide for info on using OLEDs with the CircuitPython library: https://learn.adafruit.com/monochrome-oled-breakouts/python-wiring
+* [crismc](https://github.com/crismc/) - After the removal of GPIO support from Home Assistant, the referenced addon no longer worked for me, so I took the initial project apart, and smashed it together with the Adafruit I2C libraries removing the GPIO requirements. Additionally, the original build didn't work on 64-bit versions of the Raspberry Pi, nor would it work as a stand alone service.
 
----------------------------------------
+* Ultronics
 
-Python library to use SSD1306-based 128x64 or 128x32 pixel OLED displays with a Raspberry Pi or Beaglebone Black.
+## See Also
 
-Designed specifically to work with the Adafruit SSD1306-based OLED displays ----> https://www.adafruit.com/categories/98
+* [IC2 OLED Home Assistant Add-On](https://github.com/crismc/homeassistant_addons)
+* [Adafruit Python SSD1306 notice to comply with distribution requirement](Adafruit_Notice.md)
 
-Adafruit invests time and resources providing this open source code, please support Adafruit and open-source hardware by purchasing products from Adafruit!
-
-Installing
-----------
-
-```
-sudo python -m pip install --upgrade pip setuptools wheel
-sudo pip install Adafruit-SSD1306
-```
-
-Or alternatively:
-
-```
-sudo python -m pip install --upgrade pip setuptools wheel
-git clone https://github.com/adafruit/Adafruit_Python_SSD1306.git
-cd Adafruit_Python_SSD1306
-sudo python setup.py install
-```
-
-Copying
--------
-
-Written by Tony DiCola for Adafruit Industries.
-MIT license, all text above must be included in any redistribution
 
 <!-- References -->
 [release-badge]: https://img.shields.io/github/v/release/crismc/rpi_i2c_oled?style=flat-square
 [downloads-badge]: https://img.shields.io/github/downloads/crismc/rpi_i2c_oled/total?style=flat-square
 [release-url]: https://github.com/crismc/rpi_i2c_oled/releases
+[license-badge]: https://img.shields.io/badge/License-MIT-yellow.svg
+[license-url]: https://opensource.org/licenses/MIT
 
 [welcome-url]: /img/examples/welcome.png?raw=true
 [cpu-stats-url]: /img/examples/cpu.png?raw=true

@@ -1,9 +1,11 @@
-import subprocess
+import logging
 import json
 import pathlib
 import re
-import logging
+import subprocess
 from datetime import datetime
+
+
 class Utils:
     logger = logging.getLogger('Utils')
     current_dir = str(pathlib.Path(__file__).parent.parent.resolve())
